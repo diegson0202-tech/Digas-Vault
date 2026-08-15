@@ -289,6 +289,7 @@ nav.tabs{
 .alpha-btn:hover{border-color:var(--green);color:var(--green);box-shadow:0 0 12px rgba(57,255,106,.3);}
 
 .text-muted{color:var(--text-dim);text-align:center;padding:26px 10px;font-size:.88rem;}
+.text-error{color:var(--red);text-align:center;padding:26px 10px;font-size:.85rem;border:1px dashed var(--red);border-radius:6px;background:rgba(255,59,59,.06);}
 .loading{color:var(--text-dim);text-align:center;padding:34px 20px;}
 .loading::after{content:'';animation:dots 1.4s steps(4,end) infinite;}
 @keyframes dots{0%{content:'';}25%{content:'.';}50%{content:'..';}75%{content:'...';}}
@@ -513,7 +514,6 @@ footer .lnk{color:var(--green-dim);cursor:pointer;}
           Especialista em Python para automação de tarefas, web scraping e integração de sistemas. 
           Domina Lua para desenvolvimento de jogos e sistemas embarcados, JavaScript/TypeScript para 
           frontend e backend, e Dart para aplicações cross-platform com Flutter. 
-          Além disso, possui conhecimento avançado em sistemas de automação residencial e industrial.
         </p>
         <div class="dev-tags">
           <span>Python</span>
@@ -614,6 +614,7 @@ footer .lnk{color:var(--green-dim);cursor:pointer;}
   typeBoot();
 
   let dataAll = [];
+  const loadErrors = { programas: null, jogos: null };
   const ITEMS_PER_PAGE = 30;
   const state = {
     programas: {mode:'todos', page:0, query:''},
@@ -626,23 +627,72 @@ footer .lnk{color:var(--green-dim);cursor:pointer;}
     return dataAll.filter(it => (it.categoria === 'jogo') === (cat === 'jogos'));
   }
 
+  
+  function comIdsUnicos(lista, prefixo){
+    return lista.map((item, idx) => ({
+      ...item,
+      _uid: prefixo + '-' + (item.id ?? idx)
+    }));
+  }
+
   async function carregarDados(){
-    const homeTyped = document.getElementById('homeTyped');
-    try{
-      const res = await fetch('arquivos_mediafire.json');
-      if(!res.ok) throw new Error('json não encontrado');
-      dataAll = await res.json();
-      dataAll.sort((a,b)=>a.nome_arquivo.localeCompare(b.nome_arquivo));
-    }catch(e){
-      console.warn('usando dados de exemplo:', e.message);
-      dataAll = [
-        {id:1, nome_arquivo:'Citra Lite V1.2', link:'https://www.mediafire.com/file/u03w1u1rxgya2jt', categoria:'programa'},
-        {id:2, nome_arquivo:'Dolphin Lite V3', link:'https://www.mediafire.com/file/dqo51rojn29z10r', categoria:'programa'},
-        {id:3, nome_arquivo:'DeSmuME Otimizado V1.0', link:'https://www.mediafire.com/file/ops98l93qtpu9js', categoria:'programa'},
-        {id:4, nome_arquivo:'Mame32', link:'https://www.mediafire.com/file/t5r6n8jyjf0fyuj', categoria:'programa'},
-        {id:5, nome_arquivo:'Super Mario World', link:'https://www.mediafire.com/file/supermario', categoria:'jogo'}
-      ];
+    let programasData = [];
+    let programasLoadError = null;
+    try {
+      const resProgs = await fetch('arquivos_mediafire.json');
+      if(!resProgs.ok){
+        throw new Error('HTTP ' + resProgs.status + ' ao buscar arquivos_mediafire.json');
+      }
+      const raw = await resProgs.json();
+      if(!Array.isArray(raw)){
+        throw new Error('arquivos_mediafire.json não é uma lista (array) JSON válida');
+      }
+      
+      const temCategoria = raw.length > 0 && Object.prototype.hasOwnProperty.call(raw[0], 'categoria');
+      programasData = temCategoria
+        ? raw.filter(item => item.categoria === 'programa')
+        : raw.map(item => ({ ...item, categoria: 'programa' }));
+    } catch(e) {
+      programasLoadError = e.message;
+      console.error('[vault] ❌ Erro ao carregar arquivos_mediafire.json:', e.message);
+      programasData = [];
     }
+    loadErrors.programas = programasLoadError;
+
+    let jogosData = [];
+    let jogosLoadError = null;
+    try {
+      const resJogos = await fetch('jogos_mediafire.json');
+      if(!resJogos.ok){
+        throw new Error('HTTP ' + resJogos.status + ' ao buscar jogos_mediafire.json');
+      }
+      const rawJogos = await resJogos.json();
+      if(!Array.isArray(rawJogos)){
+        throw new Error('jogos_mediafire.json não é uma lista (array) JSON válida');
+      }
+      
+      const temCategoria = rawJogos.length > 0 && Object.prototype.hasOwnProperty.call(rawJogos[0], 'categoria');
+      jogosData = temCategoria
+        ? rawJogos.filter(item => item.categoria === 'jogo')
+        : rawJogos.map(item => ({ ...item, categoria: 'jogo' }));
+
+      if(jogosData.length === 0){
+        console.warn('[vault] jogos_mediafire.json carregou, mas nenhum item tem categoria "jogo". Confira o valor do campo "categoria" no arquivo.');
+      }
+    } catch(e) {
+      jogosLoadError = e.message;
+      console.error('[vault] ❌ Erro ao carregar jogos_mediafire.json:', e.message);
+      console.error('[vault] Verifique: 1) o arquivo está na mesma pasta do HTML e com esse nome exato; 2) você está abrindo a página por um servidor http:// (ex: "npx serve" ou Live Server), não como file:// direto no navegador — fetch de arquivo local é bloqueado por CORS nesse caso.');
+      jogosData = [];
+    }
+    loadErrors.jogos = jogosLoadError;
+
+    dataAll = [
+      ...comIdsUnicos(programasData, 'prog'),
+      ...comIdsUnicos(jogosData, 'jogo')
+    ];
+    dataAll.sort((a,b)=>a.nome_arquivo.localeCompare(b.nome_arquivo));
+
     document.getElementById('cnt-programas').textContent = '📊 ' + porCategoria('programas').length + ' itens';
     document.getElementById('cnt-jogos').textContent = '📊 ' + porCategoria('jogos').length + ' itens';
     renderStats();
@@ -685,6 +735,19 @@ footer .lnk{color:var(--green-dim);cursor:pointer;}
 
   function renderList(ctx, items){
     const s = state[ctx];
+
+    const arquivo = ctx === 'jogos' ? 'jogos_mediafire.json' : 'arquivos_mediafire.json';
+    if(items.length === 0 && loadErrors[ctx]){
+      return `<div class="text-error">
+        ⚠️ ${arquivo} não carregou.<br><br>
+        <strong>Erro:</strong> ${loadErrors[ctx]}<br><br>
+        Confira no console do navegador (F12) os detalhes, e veja se:<br>
+        1) o arquivo <code>${arquivo}</code> está na mesma pasta deste HTML;<br>
+        2) o nome está exatamente igual (sem espaços/maiúsculas trocadas);<br>
+        3) a página está sendo aberta via um servidor local (http://), e não direto do disco (file://).
+      </div>`;
+    }
+
     const totalPages = Math.max(1, Math.ceil(items.length / ITEMS_PER_PAGE));
     if(s.page >= totalPages) s.page = totalPages-1;
     const slice = items.slice(s.page*ITEMS_PER_PAGE, (s.page+1)*ITEMS_PER_PAGE);
@@ -694,7 +757,7 @@ footer .lnk{color:var(--green-dim);cursor:pointer;}
       html += `<div class="text-muted">❌ Nenhum arquivo encontrado.</div>`;
     } else {
       slice.forEach(it=>{
-        html += `<button class="item-btn" data-ctx="${ctx}" data-id="${it.id}">
+        html += `<button class="item-btn" data-ctx="${ctx}" data-uid="${it._uid}">
           <span class="name">📄 ${it.nome_arquivo}</span>
           <span class="badge">link</span>
         </button>`;
@@ -751,7 +814,7 @@ footer .lnk{color:var(--green-dim);cursor:pointer;}
 
     container.querySelectorAll('.item-btn').forEach(btn=>{
       btn.addEventListener('click', ()=>{
-        const item = dataAll.find(x=>String(x.id)===btn.dataset.id);
+        const item = dataAll.find(x=>x._uid===btn.dataset.uid);
         if(item) showDetail(ctx, item);
       });
     });
