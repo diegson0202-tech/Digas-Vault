@@ -1,940 +1,1852 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>digas :: root access</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --void:        #05070a;
-  --panel:       #0a1410;
-  --panel-2:     #0d1a14;
-  --line:        #16382a;
-  --line-bright: #2f7a56;
-  --green:       #39ff6a;
-  --green-dim:   #1f8f4c;
-  --cyan:        #00e5ff;
-  --amber:       #ffb000;
-  --red:         #ff3b3b;
-  --text:        #cdf5da;
-  --text-dim:    #5c8a72;
-  --text-mute:   #34503f;
-  --font-disp:   'Share Tech Mono', monospace;
-  --font-body:   'JetBrains Mono', monospace;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>digas :: root access</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{height:100%;}
-body{
-  background:var(--void);
-  color:var(--text);
-  font-family:var(--font-body);
-  overflow-x:hidden;
-  position:relative;
-  min-height:100vh;
-}
-::selection{background:var(--green);color:#000;}
-::-webkit-scrollbar{width:8px;}
-::-webkit-scrollbar-track{background:var(--void);}
-::-webkit-scrollbar-thumb{background:var(--line-bright);border-radius:8px;}
-::-webkit-scrollbar-thumb:hover{background:var(--green-dim);}
+    :root {
+      --void: #05070a;
+      --panel: #0a1410;
+      --panel-2: #0d1a14;
+      --line: #16382a;
+      --line-bright: #2f7a56;
+      --green: #39ff6a;
+      --green-dim: #1f8f4c;
+      --cyan: #00e5ff;
+      --amber: #ffb000;
+      --red: #ff3b3b;
+      --text: #cdf5da;
+      --text-dim: #5c8a72;
+      --text-mute: #34503f;
+      --font-disp: 'Share Tech Mono', monospace;
+      --font-body: 'JetBrains Mono', monospace;
+    }
 
-button, input{font-family:var(--font-body);}
+    html,
+    body {
+      height: 100%;
+    }
 
-#matrix{
-  position:fixed;inset:0;z-index:0;
-  opacity:.28;
-  pointer-events:none;
-}
-.scanlines{
-  position:fixed;inset:0;z-index:1;pointer-events:none;
-  background:repeating-linear-gradient(
-    to bottom,
-    rgba(0,0,0,0) 0px,
-    rgba(0,0,0,0) 2px,
-    rgba(0,0,0,.18) 3px,
-    rgba(0,0,0,0) 4px
-  );
-  mix-blend-mode:multiply;
-}
-.scanlines::after{
-  content:'';
-  position:absolute;inset:0;
-  background:linear-gradient(180deg, transparent 0%, rgba(57,255,106,.03) 50%, transparent 100%);
-  animation:scan-sweep 7s linear infinite;
-}
-@keyframes scan-sweep{
-  0%{transform:translateY(-100%);}
-  100%{transform:translateY(100%);}
-}
-.vignette{
-  position:fixed;inset:0;z-index:1;pointer-events:none;
-  background:radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,.65) 100%);
-}
-.flicker{
-  position:fixed;inset:0;z-index:2;pointer-events:none;
-  background:rgba(57,255,106,.015);
-  animation:flicker 6s infinite;
-}
-@keyframes flicker{
-  0%,19%,21%,45%,47%,100%{opacity:1;}
-  20%,46%{opacity:.4;}
-}
+    body {
+      background: var(--void);
+      color: var(--text);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
 
-#boot{
-  position:fixed;inset:0;z-index:999;
-  background:var(--void);
-  display:flex;align-items:center;justify-content:center;
-  transition:opacity .5s ease, filter .5s ease;
-}
-#boot.hide{opacity:0;pointer-events:none;filter:brightness(3);}
-#boot-text{
-  font-family:var(--font-disp);
-  color:var(--green);
-  font-size:clamp(.85rem,2vw,1.1rem);
-  text-shadow:0 0 8px rgba(57,255,106,.6);
-  white-space:pre-wrap;
-  max-width:600px;
-  padding:20px;
-}
-#boot-cursor{display:inline-block;width:9px;height:1em;background:var(--green);vertical-align:middle;animation:blink 1s steps(1) infinite;}
-@keyframes blink{50%{opacity:0;}}
-#boot-skip{
-  position:absolute;bottom:26px;right:30px;
-  color:var(--text-mute);font-size:.75rem;
-  border:1px solid var(--line);border-radius:20px;
-  padding:6px 16px;cursor:pointer;
-}
-#boot-skip:hover{color:var(--green);border-color:var(--green-dim);}
+    ::selection {
+      background: var(--green);
+      color: #000;
+    }
 
-.wrap{
-  position:relative;z-index:5;
-  max-width:920px;margin:0 auto;
-  padding:26px 18px 100px;
-  opacity:0;
-  animation:reveal .9s ease forwards;
-  animation-delay:.15s;
-}
-@keyframes reveal{
-  from{opacity:0;transform:translateY(8px);}
-  to{opacity:1;transform:translateY(0);}
-}
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--void);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--line-bright);
+      border-radius: 8px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--green-dim);
+    }
 
-header{text-align:center;margin-bottom:22px;}
-.logo{
-  font-family:var(--font-disp);
-  font-size:clamp(2.1rem,7vw,3.2rem);
-  letter-spacing:8px;
-  color:var(--green);
-  text-shadow:0 0 6px var(--green), 0 0 22px rgba(57,255,106,.5), 0 0 46px rgba(57,255,106,.25);
-  position:relative;
-  display:inline-block;
-}
-.logo::before,.logo::after{
-  content:'digas';
-  position:absolute;left:0;top:0;width:100%;
-  clip-path:inset(0 0 0 0);
-  opacity:.7;
-}
-.logo::before{color:var(--cyan);animation:glitch-a 4.5s infinite;}
-.logo::after{color:var(--red);animation:glitch-b 4.5s infinite;}
-@keyframes glitch-a{
-  0%,92%,100%{clip-path:inset(0 0 0 0);transform:translate(0,0);opacity:0;}
-  93%{clip-path:inset(10% 0 60% 0);transform:translate(-3px,0);opacity:.8;}
-  95%{clip-path:inset(60% 0 5% 0);transform:translate(2px,0);opacity:.8;}
-  97%{opacity:0;}
-}
-@keyframes glitch-b{
-  0%,90%,100%{clip-path:inset(0 0 0 0);transform:translate(0,0);opacity:0;}
-  91%{clip-path:inset(70% 0 5% 0);transform:translate(3px,0);opacity:.7;}
-  94%{clip-path:inset(15% 0 55% 0);transform:translate(-2px,0);opacity:.7;}
-  96%{opacity:0;}
-}
-.tagline{
-  margin-top:10px;font-size:.72rem;letter-spacing:3px;color:var(--text-dim);
-}
-.tagline .chip{
-  border:1px solid var(--line-bright);border-radius:20px;padding:3px 14px;
-  background:var(--panel);
-}
-.prompt-line{
-  margin-top:14px;font-size:.85rem;color:var(--green-dim);
-}
-.prompt-line span{color:var(--cyan);}
+    button,
+    input {
+      font-family: var(--font-body);
+    }
 
-nav.tabs{
-  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;
-  margin:22px 0 20px;
-}
-.tab-btn{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:8px;
-  color:var(--text-dim);
-  font-size:.82rem;font-weight:700;letter-spacing:1px;
-  padding:11px 16px;cursor:pointer;
-  display:flex;align-items:center;gap:8px;
-  position:relative;overflow:hidden;
-  transition:.18s;
-}
-.tab-btn::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(90deg, transparent, rgba(57,255,106,.15), transparent);
-  transform:translateX(-100%);
-}
-.tab-btn:hover{border-color:var(--line-bright);color:var(--text);}
-.tab-btn:hover::before{transform:translateX(100%);transition:transform .6s;}
-.tab-btn.active{
-  color:var(--green);border-color:var(--green-dim);
-  box-shadow:0 0 16px rgba(57,255,106,.18), inset 0 0 12px rgba(57,255,106,.08);
-  background:var(--panel-2);
-}
-.tab-btn .tag{
-  font-size:.6rem;color:var(--amber);border:1px solid var(--amber);
-  border-radius:10px;padding:0 6px;letter-spacing:0;
-}
+    #matrix {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: .28;
+      pointer-events: none;
+    }
 
-.hud{
-  position:relative;
-  background:rgba(9,16,13,.82);
-  backdrop-filter:blur(2px);
-  border:1px solid var(--line);
-  border-radius:6px;
-  padding:24px 20px;
-  min-height:220px;
-}
-.hud::before,.hud::after,.hud .c3,.hud .c4{
-  content:'';position:absolute;width:16px;height:16px;
-  border:2px solid var(--green-dim);
-}
-.hud::before{top:-1px;left:-1px;border-right:none;border-bottom:none;}
-.hud::after{top:-1px;right:-1px;border-left:none;border-bottom:none;}
-.hud .c3{bottom:-1px;left:-1px;border-right:none;border-top:none;}
-.hud .c4{bottom:-1px;right:-1px;border-left:none;border-top:none;}
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: repeating-linear-gradient(to bottom,
+          rgba(0, 0, 0, 0) 0px,
+          rgba(0, 0, 0, 0) 2px,
+          rgba(0, 0, 0, .18) 3px,
+          rgba(0, 0, 0, 0) 4px);
+      mix-blend-mode: multiply;
+    }
 
-.panel-title{
-  font-family:var(--font-disp);
-  font-size:1.15rem;letter-spacing:1px;
-  color:var(--green);
-  text-shadow:0 0 6px rgba(57,255,106,.4);
-  border-bottom:1px dashed var(--line);
-  padding-bottom:12px;margin-bottom:16px;
-  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;
-}
-.panel-title .count{font-size:.72rem;color:var(--text-dim);font-family:var(--font-body);font-weight:400;letter-spacing:0;}
+    .scanlines::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(57, 255, 106, .03) 50%, transparent 100%);
+      animation: scan-sweep 7s linear infinite;
+    }
 
-.subnav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
-.subnav button{
-  background:var(--panel-2);border:1px solid var(--line);border-radius:20px;
-  color:var(--text-dim);font-size:.72rem;padding:7px 14px;cursor:pointer;letter-spacing:.5px;
-}
-.subnav button:hover{color:var(--text);border-color:var(--line-bright);}
-.subnav button.active{color:var(--void);background:var(--green);border-color:var(--green);font-weight:700;}
+    @keyframes scan-sweep {
+      0% {
+        transform: translateY(-100%);
+      }
+      100% {
+        transform: translateY(100%);
+      }
+    }
 
-.item-list{display:flex;flex-direction:column;gap:6px;max-height:420px;overflow-y:auto;padding-right:4px;}
-.item-btn{
-  background:var(--panel-2);border:1px solid var(--line);border-radius:6px;
-  padding:11px 14px;font-size:.86rem;color:var(--text);
-  cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;
-  transition:.12s;text-align:left;
-}
-.item-btn:hover{border-color:var(--green-dim);background:#0f2018;box-shadow:0 0 14px rgba(57,255,106,.12);transform:translateX(2px);}
-.item-btn .name{flex:1;}
-.item-btn .badge{font-size:.62rem;color:var(--cyan);border:1px solid var(--cyan);border-radius:20px;padding:2px 9px;white-space:nowrap;}
+    .vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, .65) 100%);
+    }
 
-.back-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;justify-content:center;}
-.btn-ghost{
-  background:var(--panel-2);border:1px solid var(--line-bright);border-radius:20px;
-  padding:9px 22px;color:var(--green);font-weight:700;font-size:.82rem;cursor:pointer;
-}
-.btn-ghost:hover{background:var(--green);color:var(--void);box-shadow:0 0 16px rgba(57,255,106,.4);}
-.btn-ghost:disabled{opacity:.35;cursor:default;}
-.page-info{color:var(--text-dim);font-size:.78rem;padding:9px 4px;}
+    .flicker {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: rgba(57, 255, 106, .015);
+      animation: flicker 6s infinite;
+    }
 
-.detail-box{background:var(--panel-2);border-left:4px solid var(--green);border-radius:4px;padding:18px;}
-.detail-box h3{font-family:var(--font-disp);color:var(--text);font-size:1.3rem;margin-bottom:14px;}
-.link-field{
-  background:var(--void);border:1px solid var(--line-bright);border-radius:6px;
-  padding:10px 14px;display:block;margin:10px 0 14px;word-break:break-all;font-size:.82rem;
-}
-.link-field a{color:var(--cyan);text-decoration:none;}
-.link-field a:hover{text-decoration:underline;}
-.action-btn{
-  background:var(--green);border:none;border-radius:20px;color:var(--void);
-  font-weight:700;padding:10px 22px;cursor:pointer;margin-right:10px;font-size:.82rem;
-}
-.action-btn:hover{box-shadow:0 0 16px rgba(57,255,106,.5);}
+    @keyframes flicker {
+      0%,
+      19%,
+      21%,
+      45%,
+      47%,
+      100% {
+        opacity: 1;
+      }
+      20%,
+      46% {
+        opacity: .4;
+      }
+    }
 
-.search-area{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0;}
-.search-area input{
-  flex:2;min-width:180px;background:var(--void);border:1px solid var(--line-bright);
-  border-radius:20px;padding:12px 18px;color:var(--text);font-size:.9rem;outline:none;
-}
-.search-area input:focus{box-shadow:0 0 14px rgba(57,255,106,.25);}
-.search-area input::placeholder{color:var(--text-mute);}
-.search-area button{
-  background:var(--panel-2);border:1px solid var(--green-dim);border-radius:20px;
-  padding:12px 26px;color:var(--green);font-weight:700;cursor:pointer;
-}
-.search-area button:hover{background:var(--green);color:var(--void);}
+    #boot {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: var(--void);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity .5s ease, filter .5s ease;
+    }
+    #boot.hide {
+      opacity: 0;
+      pointer-events: none;
+      filter: brightness(3);
+    }
+    #boot-text {
+      font-family: var(--font-disp);
+      color: var(--green);
+      font-size: clamp(.85rem, 2vw, 1.1rem);
+      text-shadow: 0 0 8px rgba(57, 255, 106, .6);
+      white-space: pre-wrap;
+      max-width: 600px;
+      padding: 20px;
+    }
+    #boot-cursor {
+      display: inline-block;
+      width: 9px;
+      height: 1em;
+      background: var(--green);
+      vertical-align: middle;
+      animation: blink 1s steps(1) infinite;
+    }
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+    #boot-skip {
+      position: absolute;
+      bottom: 26px;
+      right: 30px;
+      color: var(--text-mute);
+      font-size: .75rem;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 6px 16px;
+      cursor: pointer;
+      transition: .2s;
+    }
+    #boot-skip:hover {
+      color: var(--green);
+      border-color: var(--green-dim);
+    }
 
-.alpha-grid{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin:6px 0 4px;}
-.alpha-btn{
-  background:var(--panel-2);border:1px solid var(--line);border-radius:6px;
-  width:38px;height:38px;color:var(--text);font-weight:700;cursor:pointer;
-}
-.alpha-btn:hover{border-color:var(--green);color:var(--green);box-shadow:0 0 12px rgba(57,255,106,.3);}
+    .wrap {
+      position: relative;
+      z-index: 5;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 26px 18px 100px;
+      opacity: 0;
+      animation: reveal .9s ease forwards;
+      animation-delay: .15s;
+    }
 
-.text-muted{color:var(--text-dim);text-align:center;padding:26px 10px;font-size:.88rem;}
-.text-error{color:var(--red);text-align:center;padding:26px 10px;font-size:.85rem;border:1px dashed var(--red);border-radius:6px;background:rgba(255,59,59,.06);}
-.loading{color:var(--text-dim);text-align:center;padding:34px 20px;}
-.loading::after{content:'';animation:dots 1.4s steps(4,end) infinite;}
-@keyframes dots{0%{content:'';}25%{content:'.';}50%{content:'..';}75%{content:'...';}}
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-.home-hero{text-align:center;padding:6px 6px 22px;}
-.home-hero .typed{
-  font-family:var(--font-disp);color:var(--text);font-size:1rem;line-height:1.7;
-  min-height:3.4em;
-}
-.home-hero .typed .cursor{color:var(--green);animation:blink 1s steps(1) infinite;}
-.stat-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:18px 0 4px;}
-.stat-card{
-  background:var(--panel-2);border:1px solid var(--line);border-radius:6px;
-  padding:14px 22px;min-width:110px;text-align:center;
-}
-.stat-card .num{font-family:var(--font-disp);color:var(--green);font-size:1.6rem;text-shadow:0 0 8px rgba(57,255,106,.4);}
-.stat-card .lbl{font-size:.65rem;color:var(--text-dim);letter-spacing:2px;margin-top:2px;}
+    header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
 
-.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:18px;}
-.nav-card{
-  background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:20px 16px;
-  cursor:pointer;transition:.2s;position:relative;overflow:hidden;
-}
-.nav-card:hover{border-color:var(--green-dim);transform:translateY(-3px);box-shadow:0 6px 22px rgba(0,0,0,.4), 0 0 16px rgba(57,255,106,.15);}
-.nav-card .ic{font-size:1.6rem;margin-bottom:8px;display:block;}
-.nav-card h4{font-family:var(--font-disp);color:var(--text);font-size:1rem;letter-spacing:1px;margin-bottom:4px;}
-.nav-card p{color:var(--text-dim);font-size:.76rem;line-height:1.4;}
-.nav-card .locked{color:var(--amber);font-size:.65rem;letter-spacing:1px;margin-top:8px;display:inline-block;border:1px solid var(--amber);border-radius:20px;padding:2px 10px;}
+    .logo {
+      font-family: var(--font-disp);
+      font-size: clamp(2.1rem, 7vw, 3.2rem);
+      letter-spacing: 8px;
+      color: var(--green);
+      text-shadow: 0 0 6px var(--green), 0 0 22px rgba(57, 255, 106, .5), 0 0 46px rgba(57, 255, 106, .25);
+      position: relative;
+      display: inline-block;
+    }
 
-.soon-wrap{text-align:center;padding:36px 10px;}
-.soon-lock{font-size:3rem;display:inline-block;animation:pulse-lock 2.2s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(255,176,0,.5));}
-@keyframes pulse-lock{0%,100%{transform:scale(1);opacity:.85;}50%{transform:scale(1.08);opacity:1;}}
-.soon-title{font-family:var(--font-disp);color:var(--amber);font-size:1.3rem;letter-spacing:3px;margin:14px 0 8px;text-shadow:0 0 10px rgba(255,176,0,.4);}
-.soon-bar{width:220px;height:6px;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;margin:16px auto;overflow:hidden;}
-.soon-bar-fill{height:100%;width:34%;background:linear-gradient(90deg,var(--amber),var(--green));animation:soon-load 3s ease-in-out infinite;}
-@keyframes soon-load{0%{width:10%;}50%{width:60%;}100%{width:10%;}}
-.soon-desc{color:var(--text-dim);font-size:.82rem;max-width:420px;margin:0 auto;line-height:1.6;}
+    .logo::before,
+    .logo::after {
+      content: 'digas';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      clip-path: inset(0 0 0 0);
+      opacity: .7;
+    }
+    .logo::before {
+      color: var(--cyan);
+      animation: glitch-a 4.5s infinite;
+    }
+    .logo::after {
+      color: var(--red);
+      animation: glitch-b 4.5s infinite;
+    }
 
-.dev-grid{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;}
-.dev-photo-wrap{flex:0 0 auto;text-align:center;margin:0 auto;}
-.dev-photo{
-  width:150px;height:150px;border-radius:50%;
-  border:3px solid var(--green-dim);
-  box-shadow:0 0 24px rgba(57,255,106,.35), inset 0 0 20px rgba(0,0,0,.5);
-  object-fit:cover;background:var(--panel-2);
-  animation:photo-pulse 3.5s ease-in-out infinite;
-}
-@keyframes photo-pulse{0%,100%{box-shadow:0 0 24px rgba(57,255,106,.35), inset 0 0 20px rgba(0,0,0,.5);}50%{box-shadow:0 0 34px rgba(57,255,106,.6), inset 0 0 20px rgba(0,0,0,.5);}}
-.dev-photo-cap{font-size:.65rem;color:var(--text-mute);margin-top:8px;letter-spacing:1px;}
-.dev-info{flex:1;min-width:220px;}
-.dev-name{font-family:var(--font-disp);font-size:1.6rem;color:var(--green);text-shadow:0 0 8px rgba(57,255,106,.4);}
-.dev-role{color:var(--cyan);font-size:.82rem;margin:4px 0 14px;letter-spacing:1px;}
-.dev-bio{color:var(--text);font-size:.86rem;line-height:1.7;}
-.dev-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
-.dev-tags span{
-  background:var(--panel-2);border:1px solid var(--line-bright);border-radius:20px;
-  padding:5px 13px;font-size:.7rem;color:var(--green);
-}
-.dev-note{margin-top:16px;font-size:.68rem;color:var(--text-mute);border-top:1px dashed var(--line);padding-top:10px;}
+    @keyframes glitch-a {
+      0%,
+      92%,
+      100% {
+        clip-path: inset(0 0 0 0);
+        transform: translate(0, 0);
+        opacity: 0;
+      }
+      93% {
+        clip-path: inset(10% 0 60% 0);
+        transform: translate(-3px, 0);
+        opacity: .8;
+      }
+      95% {
+        clip-path: inset(60% 0 5% 0);
+        transform: translate(2px, 0);
+        opacity: .8;
+      }
+      97% {
+        opacity: 0;
+      }
+    }
 
-#musicFab{
-  position:fixed;bottom:22px;right:22px;z-index:50;
-  width:58px;height:58px;border-radius:50%;
-  background:var(--panel-2);border:2px solid var(--green-dim);
-  display:flex;align-items:center;justify-content:center;cursor:pointer;
-  box-shadow:0 0 20px rgba(57,255,106,.3), 0 4px 14px rgba(0,0,0,.5);
-  transition:.2s;
-}
-#musicFab:hover{transform:scale(1.06);box-shadow:0 0 28px rgba(57,255,106,.5);}
-#musicFab.playing{border-color:var(--green);animation:fab-beat 1.1s ease-in-out infinite;}
-@keyframes fab-beat{0%,100%{box-shadow:0 0 20px rgba(57,255,106,.3);}50%{box-shadow:0 0 32px rgba(57,255,106,.65);}}
-#musicFab svg{width:24px;height:24px;fill:var(--green);}
+    @keyframes glitch-b {
+      0%,
+      90%,
+      100% {
+        clip-path: inset(0 0 0 0);
+        transform: translate(0, 0);
+        opacity: 0;
+      }
+      91% {
+        clip-path: inset(70% 0 5% 0);
+        transform: translate(3px, 0);
+        opacity: .7;
+      }
+      94% {
+        clip-path: inset(15% 0 55% 0);
+        transform: translate(-2px, 0);
+        opacity: .7;
+      }
+      96% {
+        opacity: 0;
+      }
+    }
 
-#musicPanel{
-  position:fixed;bottom:92px;right:22px;z-index:50;
-  width:230px;background:rgba(9,16,13,.95);backdrop-filter:blur(6px);
-  border:1px solid var(--line-bright);border-radius:10px;padding:14px;
-  box-shadow:0 8px 30px rgba(0,0,0,.6), 0 0 18px rgba(57,255,106,.15);
-  transform:translateY(10px) scale(.95);opacity:0;pointer-events:none;transition:.18s;
-}
-#musicPanel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:auto;}
-.mp-title{font-size:.7rem;color:var(--text-dim);letter-spacing:1px;margin-bottom:8px;display:flex;justify-content:space-between;}
-.mp-track{font-size:.8rem;color:var(--text);margin-bottom:10px;}
-.eq{display:flex;align-items:flex-end;gap:3px;height:20px;margin-bottom:10px;}
-.eq span{width:4px;background:var(--green);border-radius:2px;animation:eq-bounce 1s ease-in-out infinite;opacity:.35;}
-.eq span:nth-child(1){animation-delay:0s;}
-.eq span:nth-child(2){animation-delay:.15s;}
-.eq span:nth-child(3){animation-delay:.3s;}
-.eq span:nth-child(4){animation-delay:.1s;}
-.eq span:nth-child(5){animation-delay:.25s;}
-#musicPanel.on .eq span{opacity:1;}
-@keyframes eq-bounce{0%,100%{height:4px;}50%{height:18px;}}
-.mp-controls{display:flex;align-items:center;gap:10px;}
-.mp-btn{
-  background:var(--panel);border:1px solid var(--line);border-radius:50%;
-  width:34px;height:34px;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;color:var(--green);
-}
-.mp-btn:hover{border-color:var(--green);}
-.mp-vol{flex:1;accent-color:var(--green);}
+    .tagline {
+      margin-top: 10px;
+      font-size: .72rem;
+      letter-spacing: 3px;
+      color: var(--text-dim);
+    }
+    .tagline .chip {
+      border: 1px solid var(--line-bright);
+      border-radius: 20px;
+      padding: 3px 14px;
+      background: var(--panel);
+    }
 
-footer{margin-top:26px;text-align:center;font-size:.68rem;color:var(--text-mute);}
-footer .lnk{color:var(--green-dim);cursor:pointer;}
+    .prompt-line {
+      margin-top: 14px;
+      font-size: .85rem;
+      color: var(--green-dim);
+    }
+    .prompt-line span {
+      color: var(--cyan);
+    }
 
-@media (max-width:560px){
-  .logo{letter-spacing:4px;}
-  .tab-btn{font-size:.72rem;padding:9px 12px;}
-  .hud{padding:18px 14px;}
-  .dev-grid{flex-direction:column;align-items:center;text-align:center;}
-}
-@media (prefers-reduced-motion:reduce){
-  *{animation-duration:.001s !important;animation-iteration-count:1 !important;transition:none !important;}
-}
-</style>
+    nav.tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 22px 0 20px;
+    }
+
+    .tab-btn {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 11px 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+      transition: .18s;
+    }
+    .tab-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(57, 255, 106, .15), transparent);
+      transform: translateX(-100%);
+    }
+    .tab-btn:hover {
+      border-color: var(--line-bright);
+      color: var(--text);
+    }
+    .tab-btn:hover::before {
+      transform: translateX(100%);
+      transition: transform .6s;
+    }
+    .tab-btn.active {
+      color: var(--green);
+      border-color: var(--green-dim);
+      box-shadow: 0 0 16px rgba(57, 255, 106, .18), inset 0 0 12px rgba(57, 255, 106, .08);
+      background: var(--panel-2);
+    }
+    .tab-btn .tag {
+      font-size: .6rem;
+      color: var(--amber);
+      border: 1px solid var(--amber);
+      border-radius: 10px;
+      padding: 0 6px;
+      letter-spacing: 0;
+    }
+
+    .hud {
+      position: relative;
+      background: rgba(9, 16, 13, .82);
+      backdrop-filter: blur(2px);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 24px 20px;
+      min-height: 220px;
+      transition: border-color .3s;
+    }
+    .hud:hover {
+      border-color: var(--line-bright);
+    }
+
+    .hud::before,
+    .hud::after,
+    .hud .c3,
+    .hud .c4 {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--green-dim);
+      transition: .3s;
+    }
+    .hud:hover::before,
+    .hud:hover::after,
+    .hud:hover .c3,
+    .hud:hover .c4 {
+      border-color: var(--green);
+    }
+    .hud::before {
+      top: -1px;
+      left: -1px;
+      border-right: none;
+      border-bottom: none;
+    }
+    .hud::after {
+      top: -1px;
+      right: -1px;
+      border-left: none;
+      border-bottom: none;
+    }
+    .hud .c3 {
+      bottom: -1px;
+      left: -1px;
+      border-right: none;
+      border-top: none;
+    }
+    .hud .c4 {
+      bottom: -1px;
+      right: -1px;
+      border-left: none;
+      border-top: none;
+    }
+
+    .panel-title {
+      font-family: var(--font-disp);
+      font-size: 1.15rem;
+      letter-spacing: 1px;
+      color: var(--green);
+      text-shadow: 0 0 6px rgba(57, 255, 106, .4);
+      border-bottom: 1px dashed var(--line);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .panel-title .count {
+      font-size: .72rem;
+      color: var(--text-dim);
+      font-family: var(--font-body);
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .subnav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .subnav button {
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      color: var(--text-dim);
+      font-size: .72rem;
+      padding: 7px 14px;
+      cursor: pointer;
+      letter-spacing: .5px;
+      transition: .2s;
+    }
+    .subnav button:hover {
+      color: var(--text);
+      border-color: var(--line-bright);
+    }
+    .subnav button.active {
+      color: var(--void);
+      background: var(--green);
+      border-color: var(--green);
+      font-weight: 700;
+    }
+
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 420px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .item-btn {
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 11px 14px;
+      font-size: .86rem;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      transition: .12s;
+      text-align: left;
+    }
+    .item-btn:hover {
+      border-color: var(--green-dim);
+      background: #0f2018;
+      box-shadow: 0 0 14px rgba(57, 255, 106, .12);
+      transform: translateX(2px);
+    }
+    .item-btn .name {
+      flex: 1;
+    }
+    .item-btn .badge {
+      font-size: .62rem;
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+      border-radius: 20px;
+      padding: 2px 9px;
+      white-space: nowrap;
+    }
+
+    .back-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+      justify-content: center;
+    }
+    .btn-ghost {
+      background: var(--panel-2);
+      border: 1px solid var(--line-bright);
+      border-radius: 20px;
+      padding: 9px 22px;
+      color: var(--green);
+      font-weight: 700;
+      font-size: .82rem;
+      cursor: pointer;
+      transition: .2s;
+    }
+    .btn-ghost:hover {
+      background: var(--green);
+      color: var(--void);
+      box-shadow: 0 0 16px rgba(57, 255, 106, .4);
+    }
+    .btn-ghost:disabled {
+      opacity: .35;
+      cursor: default;
+    }
+    .page-info {
+      color: var(--text-dim);
+      font-size: .78rem;
+      padding: 9px 4px;
+    }
+
+    .detail-box {
+      background: var(--panel-2);
+      border-left: 4px solid var(--green);
+      border-radius: 4px;
+      padding: 18px;
+      animation: fadeIn .3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .detail-box h3 {
+      font-family: var(--font-disp);
+      color: var(--text);
+      font-size: 1.3rem;
+      margin-bottom: 14px;
+    }
+    .link-field {
+      background: var(--void);
+      border: 1px solid var(--line-bright);
+      border-radius: 6px;
+      padding: 10px 14px;
+      display: block;
+      margin: 10px 0 14px;
+      word-break: break-all;
+      font-size: .82rem;
+    }
+    .link-field a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+    .link-field a:hover {
+      text-decoration: underline;
+    }
+
+    .action-btn {
+      background: var(--green);
+      border: none;
+      border-radius: 20px;
+      color: var(--void);
+      font-weight: 700;
+      padding: 10px 22px;
+      cursor: pointer;
+      margin-right: 10px;
+      font-size: .82rem;
+      transition: .2s;
+    }
+    .action-btn:hover {
+      box-shadow: 0 0 16px rgba(57, 255, 106, .5);
+    }
+
+    .search-area {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 14px 0;
+    }
+    .search-area input {
+      flex: 2;
+      min-width: 180px;
+      background: var(--void);
+      border: 1px solid var(--line-bright);
+      border-radius: 20px;
+      padding: 12px 18px;
+      color: var(--text);
+      font-size: .9rem;
+      outline: none;
+      transition: .2s;
+    }
+    .search-area input:focus {
+      box-shadow: 0 0 14px rgba(57, 255, 106, .25);
+    }
+    .search-area input::placeholder {
+      color: var(--text-mute);
+    }
+    .search-area button {
+      background: var(--panel-2);
+      border: 1px solid var(--green-dim);
+      border-radius: 20px;
+      padding: 12px 26px;
+      color: var(--green);
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s;
+    }
+    .search-area button:hover {
+      background: var(--green);
+      color: var(--void);
+    }
+
+    /* === FILMES ESTILO === */
+    .movies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+      padding: 10px 0;
+    }
+
+    .movie-card {
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all .25s ease;
+      position: relative;
+    }
+    .movie-card:hover {
+      border-color: var(--green-dim);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .5), 0 0 20px rgba(57, 255, 106, .12);
+    }
+    .movie-card img {
+      width: 100%;
+      aspect-ratio: 2/3;
+      object-fit: cover;
+      display: block;
+      background: var(--void);
+    }
+    .movie-card .movie-info {
+      padding: 12px 14px;
+    }
+    .movie-card .movie-title {
+      font-family: var(--font-disp);
+      font-size: .9rem;
+      color: var(--text);
+      letter-spacing: .5px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .movie-card .movie-category {
+      font-size: .65rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      letter-spacing: 1px;
+    }
+    .movie-card .movie-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, .7);
+      border: 1px solid var(--green-dim);
+      border-radius: 4px;
+      padding: 2px 10px;
+      font-size: .6rem;
+      color: var(--green);
+      letter-spacing: 1px;
+      backdrop-filter: blur(4px);
+    }
+
+    .movie-detail-container {
+      animation: fadeIn .3s ease;
+    }
+    .movie-detail-container .movie-detail-header {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .movie-detail-container .movie-detail-poster {
+      flex: 0 0 200px;
+      max-width: 200px;
+    }
+    .movie-detail-container .movie-detail-poster img {
+      width: 100%;
+      border-radius: 6px;
+      border: 2px solid var(--line-bright);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .5);
+    }
+    .movie-detail-container .movie-detail-info {
+      flex: 1;
+      min-width: 200px;
+    }
+    .movie-detail-container .movie-detail-info h2 {
+      font-family: var(--font-disp);
+      font-size: 1.6rem;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+    .movie-detail-container .movie-detail-info .meta {
+      color: var(--text-dim);
+      font-size: .85rem;
+      margin-bottom: 14px;
+    }
+    .movie-detail-container .movie-detail-info .meta span {
+      color: var(--cyan);
+    }
+    .movie-detail-container .movie-detail-player {
+      margin-top: 20px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--void);
+    }
+    .movie-detail-container .movie-detail-player iframe {
+      display: block;
+      width: 100%;
+      height: 500px;
+      border: none;
+    }
+    .movie-detail-container .back-row {
+      margin-top: 20px;
+    }
+
+    @media (max-width: 560px) {
+      .movies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+      }
+      .movie-detail-container .movie-detail-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .movie-detail-container .movie-detail-poster {
+        flex: 0 0 auto;
+        max-width: 160px;
+      }
+      .movie-detail-container .movie-detail-player iframe {
+        height: 300px;
+      }
+    }
+
+    .text-muted {
+      color: var(--text-dim);
+      text-align: center;
+      padding: 26px 10px;
+      font-size: .88rem;
+    }
+    .text-error {
+      color: var(--red);
+      text-align: center;
+      padding: 26px 10px;
+      font-size: .85rem;
+      border: 1px dashed var(--red);
+      border-radius: 6px;
+      background: rgba(255, 59, 59, .06);
+    }
+    .loading {
+      color: var(--text-dim);
+      text-align: center;
+      padding: 34px 20px;
+    }
+    .loading::after {
+      content: '';
+      animation: dots 1.4s steps(4, end) infinite;
+    }
+    @keyframes dots {
+      0% {
+        content: '';
+      }
+      25% {
+        content: '.';
+      }
+      50% {
+        content: '..';
+      }
+      75% {
+        content: '...';
+      }
+    }
+
+    .home-hero {
+      text-align: center;
+      padding: 6px 6px 22px;
+    }
+    .home-hero .typed {
+      font-family: var(--font-disp);
+      color: var(--text);
+      font-size: 1rem;
+      line-height: 1.7;
+      min-height: 3.4em;
+    }
+    .home-hero .typed .cursor {
+      color: var(--green);
+      animation: blink 1s steps(1) infinite;
+    }
+
+    .stat-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 18px 0 4px;
+    }
+    .stat-card {
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 14px 22px;
+      min-width: 110px;
+      text-align: center;
+      transition: .2s;
+    }
+    .stat-card:hover {
+      border-color: var(--green-dim);
+      box-shadow: 0 0 20px rgba(57, 255, 106, .1);
+    }
+    .stat-card .num {
+      font-family: var(--font-disp);
+      color: var(--green);
+      font-size: 1.6rem;
+      text-shadow: 0 0 8px rgba(57, 255, 106, .4);
+    }
+    .stat-card .lbl {
+      font-size: .65rem;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      margin-top: 2px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .nav-card {
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-card:hover {
+      border-color: var(--green-dim);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 22px rgba(0, 0, 0, .4), 0 0 16px rgba(57, 255, 106, .15);
+    }
+    .nav-card .ic {
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .nav-card h4 {
+      font-family: var(--font-disp);
+      color: var(--text);
+      font-size: 1rem;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .nav-card p {
+      color: var(--text-dim);
+      font-size: .76rem;
+      line-height: 1.4;
+    }
+
+    .dev-grid {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    .dev-photo-wrap {
+      flex: 0 0 auto;
+      text-align: center;
+      margin: 0 auto;
+    }
+    .dev-photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 3px solid var(--green-dim);
+      box-shadow: 0 0 24px rgba(57, 255, 106, .35), inset 0 0 20px rgba(0, 0, 0, .5);
+      object-fit: cover;
+      background: var(--panel-2);
+      animation: photo-pulse 3.5s ease-in-out infinite;
+    }
+    @keyframes photo-pulse {
+      0%,
+      100% {
+        box-shadow: 0 0 24px rgba(57, 255, 106, .35), inset 0 0 20px rgba(0, 0, 0, .5);
+      }
+      50% {
+        box-shadow: 0 0 34px rgba(57, 255, 106, .6), inset 0 0 20px rgba(0, 0, 0, .5);
+      }
+    }
+    .dev-photo-cap {
+      font-size: .65rem;
+      color: var(--text-mute);
+      margin-top: 8px;
+      letter-spacing: 1px;
+    }
+    .dev-info {
+      flex: 1;
+      min-width: 220px;
+    }
+    .dev-name {
+      font-family: var(--font-disp);
+      font-size: 1.6rem;
+      color: var(--green);
+      text-shadow: 0 0 8px rgba(57, 255, 106, .4);
+    }
+    .dev-role {
+      color: var(--cyan);
+      font-size: .82rem;
+      margin: 4px 0 14px;
+      letter-spacing: 1px;
+    }
+    .dev-bio {
+      color: var(--text);
+      font-size: .86rem;
+      line-height: 1.7;
+    }
+    .dev-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .dev-tags span {
+      background: var(--panel-2);
+      border: 1px solid var(--line-bright);
+      border-radius: 20px;
+      padding: 5px 13px;
+      font-size: .7rem;
+      color: var(--green);
+      transition: .2s;
+    }
+    .dev-tags span:hover {
+      background: var(--green);
+      color: var(--void);
+      border-color: var(--green);
+    }
+    .dev-note {
+      margin-top: 16px;
+      font-size: .68rem;
+      color: var(--text-mute);
+      border-top: 1px dashed var(--line);
+      padding-top: 10px;
+    }
+
+    #musicFab {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 50;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: var(--panel-2);
+      border: 2px solid var(--green-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(57, 255, 106, .3), 0 4px 14px rgba(0, 0, 0, .5);
+      transition: .2s;
+    }
+    #musicFab:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 28px rgba(57, 255, 106, .5);
+    }
+    #musicFab.playing {
+      border-color: var(--green);
+      animation: fab-beat 1.1s ease-in-out infinite;
+    }
+    @keyframes fab-beat {
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(57, 255, 106, .3);
+      }
+      50% {
+        box-shadow: 0 0 32px rgba(57, 255, 106, .65);
+      }
+    }
+    #musicFab svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--green);
+    }
+
+    #musicPanel {
+      position: fixed;
+      bottom: 92px;
+      right: 22px;
+      z-index: 50;
+      width: 230px;
+      background: rgba(9, 16, 13, .95);
+      backdrop-filter: blur(6px);
+      border: 1px solid var(--line-bright);
+      border-radius: 10px;
+      padding: 14px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .6), 0 0 18px rgba(57, 255, 106, .15);
+      transform: translateY(10px) scale(.95);
+      opacity: 0;
+      pointer-events: none;
+      transition: .18s;
+    }
+    #musicPanel.open {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .mp-title {
+      font-size: .7rem;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .mp-track {
+      font-size: .8rem;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .eq {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 20px;
+      margin-bottom: 10px;
+    }
+    .eq span {
+      width: 4px;
+      background: var(--green);
+      border-radius: 2px;
+      animation: eq-bounce 1s ease-in-out infinite;
+      opacity: .35;
+    }
+    .eq span:nth-child(1) {
+      animation-delay: 0s;
+    }
+    .eq span:nth-child(2) {
+      animation-delay: .15s;
+    }
+    .eq span:nth-child(3) {
+      animation-delay: .3s;
+    }
+    .eq span:nth-child(4) {
+      animation-delay: .1s;
+    }
+    .eq span:nth-child(5) {
+      animation-delay: .25s;
+    }
+    #musicPanel.on .eq span {
+      opacity: 1;
+    }
+    @keyframes eq-bounce {
+      0%,
+      100% {
+        height: 4px;
+      }
+      50% {
+        height: 18px;
+      }
+    }
+    .mp-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .mp-btn {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--green);
+      transition: .2s;
+    }
+    .mp-btn:hover {
+      border-color: var(--green);
+    }
+    .mp-vol {
+      flex: 1;
+      accent-color: var(--green);
+    }
+
+    footer {
+      margin-top: 26px;
+      text-align: center;
+      font-size: .68rem;
+      color: var(--text-mute);
+    }
+    footer .lnk {
+      color: var(--green-dim);
+      cursor: pointer;
+      transition: .2s;
+    }
+    footer .lnk:hover {
+      color: var(--green);
+    }
+
+    @media (max-width: 560px) {
+      .logo {
+        letter-spacing: 4px;
+      }
+      .tab-btn {
+        font-size: .72rem;
+        padding: 9px 12px;
+      }
+      .hud {
+        padding: 18px 14px;
+      }
+      .dev-grid {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: .001s !important;
+        animation-iteration-count: 1 !important;
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<canvas id="matrix"></canvas>
-<div class="scanlines"></div>
-<div class="vignette"></div>
-<div class="flicker"></div>
+  <canvas id="matrix"></canvas>
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
+  <div class="flicker"></div>
 
-<div id="boot">
-  <div id="boot-text"></div>
-  <div id="boot-skip">pular »</div>
-</div>
-
-<div class="wrap" id="app">
-  <header>
-    <div class="logo">digas</div>
-    <div class="tagline"><span class="chip">⛓ VAULT · ARQUIVOS · MÍDIA ⛓</span></div>
-    <div class="prompt-line"><span>root@digas</span>:~$ acesso concedido_</div>
-  </header>
-
-  <nav class="tabs" id="tabs">
-    <button class="tab-btn active" data-tab="home">🏠 início</button>
-    <button class="tab-btn" data-tab="programas">💻 programas</button>
-    <button class="tab-btn" data-tab="jogos">🎮 jogos</button>
-    <button class="tab-btn" data-tab="midia">🎬 filmes &amp; séries <span class="tag">em breve</span></button>
-    <button class="tab-btn" data-tab="dev">👨‍💻 desenvolvedor</button>
-  </nav>
-
-  <section class="hud" id="view-home">
-    <div class="c3"></div><div class="c4"></div>
-    <div class="home-hero">
-      <div class="typed" id="homeTyped"><span class="cursor">▋</span></div>
-      <div class="stat-row" id="statRow"></div>
-    </div>
-    <div class="card-grid">
-      <div class="nav-card" data-goto="programas">
-        <span class="ic">💻</span>
-        <h4>PROGRAMAS</h4>
-        <p>Emuladores, ferramentas e utilitários catalogados no vault.</p>
-      </div>
-      <div class="nav-card" data-goto="jogos">
-        <span class="ic">🎮</span>
-        <h4>JOGOS</h4>
-        <p>Roms e jogos disponíveis para download direto.</p>
-      </div>
-      <div class="nav-card" data-goto="midia">
-        <span class="ic">🎬</span>
-        <h4>FILMES &amp; SÉRIES</h4>
-        <p>Catálogo de mídia chegando em breve ao vault.</p>
-        <span class="locked">🔒 em construção</span>
-      </div>
-      <div class="nav-card" data-goto="dev">
-        <span class="ic">👨‍💻</span>
-        <h4>DESENVOLVEDOR</h4>
-        <p>Quem constrói e mantém este vault.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="hud" id="view-programas" style="display:none">
-    <div class="c3"></div><div class="c4"></div>
-    <div class="panel-title">💻 PROGRAMAS <span class="count" id="cnt-programas"></span></div>
-    <div class="subnav" data-ctx="programas">
-      <button data-mode="todos" class="active">📁 todos</button>
-      <button data-mode="alfabeto">🔤 letra</button>
-      <button data-mode="pesquisar">🔍 pesquisar</button>
-      <button data-mode="novidades">🆕 novidades</button>
-    </div>
-    <div id="body-programas"></div>
-  </section>
-
-  <section class="hud" id="view-jogos" style="display:none">
-    <div class="c3"></div><div class="c4"></div>
-    <div class="panel-title">🎮 JOGOS <span class="count" id="cnt-jogos"></span></div>
-    <div class="subnav" data-ctx="jogos">
-      <button data-mode="todos" class="active">📁 todos</button>
-      <button data-mode="alfabeto">🔤 letra</button>
-      <button data-mode="pesquisar">🔍 pesquisar</button>
-      <button data-mode="novidades">🆕 novidades</button>
-    </div>
-    <div id="body-jogos"></div>
-  </section>
-
-  <section class="hud" id="view-midia" style="display:none">
-    <div class="c3"></div><div class="c4"></div>
-    <div class="panel-title">🎬 FILMES &amp; SÉRIES</div>
-    <div class="soon-wrap">
-      <span class="soon-lock">🔒</span>
-      <div class="soon-title">MÓDULO EM CONSTRUÇÃO</div>
-      <div class="soon-bar"><div class="soon-bar-fill"></div></div>
-      <p class="soon-desc">O catálogo de filmes e séries está sendo preparado. Em breve esta aba vai funcionar do mesmo jeito que Programas e Jogos — com busca, filtro por letra e novidades.</p>
-    </div>
-  </section>
-
-  <section class="hud" id="view-dev" style="display:none">
-    <div class="c3"></div><div class="c4"></div>
-    <div class="panel-title">👨‍💻 SOBRE O DESENVOLVEDOR</div>
-    <div class="dev-grid">
-      <div class="dev-photo-wrap">
-        <img class="dev-photo" id="devPhoto" src="imagem.jpg" alt="Foto do desenvolvedor" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 150 150%22%3E%3Crect width=%22150%22 height=%22150%22 fill=%22%230d1a14%22/%3E%3Ccircle cx=%2275%22 cy=%2258%22 r=%2230%22 fill=%22%2339ff6a%22 opacity=%220.25%22/%3E%3Cpath d=%22M20 150c0-40 25-58 55-58s55 18 55 58%22 fill=%22%2339ff6a%22 opacity=%220.25%22/%3E%3C/svg%3E';">
-        <div class="dev-photo-cap"></div>
-      </div>
-      <div class="dev-info">
-        <div class="dev-name">Digas</div>
-        <div class="dev-role">Desenvolvedor Full Stack · Especialista em Automação</div>
-        <p class="dev-bio">
-          Desenvolvedor independente com expertise em múltiplas linguagens e automação de processos. 
-          Especialista em Python para automação de tarefas, web scraping e integração de sistemas. 
-          Domina Lua para desenvolvimento de jogos e sistemas embarcados, JavaScript/TypeScript para 
-          frontend e backend, e Dart para aplicações cross-platform com Flutter. 
-        </p>
-        <div class="dev-tags">
-          <span>Python</span>
-          <span>Lua</span>
-          <span>Luau</span>
-          <span>Dart</span>
-          <span>JavaScript</span>
-          <span>TypeScript</span>
-          <span>Automação</span>
-          <span>Web Scraping</span>
-          <span>Flutter</span>
-          <span>REST APIs</span>
-        </div>
-        <div class="dev-note"></div>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    ⚡ root@digas:~# interface estática · dados via JSON · <span class="lnk" id="topBtn">voltar ao topo ↑</span>
-  </footer>
-</div>
-
-<audio id="bgAudio" src="heman.m4a" loop preload="none"></audio>
-<div id="musicPanel">
-  <div class="mp-title"><span>TRILHA SONORA</span><span id="mpStatus">pausado</span></div>
-  <div class="mp-track">🎵 musica-fundo.mp3</div>
-  <div class="eq"><span></span><span></span><span></span><span></span><span></span></div>
-  <div class="mp-controls">
-    <div class="mp-btn" id="mpToggle">▶</div>
-    <input class="mp-vol" id="mpVol" type="range" min="0" max="1" step="0.01" value="0.5">
+  <div id="boot">
+    <div id="boot-text"></div>
+    <div id="boot-skip">pular »</div>
   </div>
-</div>
-<div id="musicFab" title="Música de fundo">
-  <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-</div>
 
-<script>
-(function(){
-  const canvas = document.getElementById('matrix');
-  const ctx = canvas.getContext('2d');
-  let w,h,cols,drops;
-  const chars = 'アカサタナハマヤラワ0123456789$#@%&<>/\\{}[]';
-  function resize(){
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-    cols = Math.floor(w/16);
-    drops = new Array(cols).fill(0).map(()=>Math.random()*-40);
-  }
-  window.addEventListener('resize', resize);
-  resize();
-  function drawMatrix(){
-    ctx.fillStyle = 'rgba(5,7,10,0.08)';
-    ctx.fillRect(0,0,w,h);
-    ctx.font = '14px monospace';
-    for(let i=0;i<cols;i++){
-      const ch = chars[Math.floor(Math.random()*chars.length)];
-      const x = i*16;
-      const y = drops[i]*16;
-      ctx.fillStyle = Math.random() > 0.96 ? '#baffc9' : '#39ff6a';
-      ctx.fillText(ch, x, y);
-      if(y > h && Math.random() > 0.975) drops[i] = 0;
-      drops[i]++;
-    }
-  }
-  setInterval(drawMatrix, 55);
+  <div class="wrap" id="app">
+    <header>
+      <div class="logo">digas</div>
+      <div class="tagline"><span class="chip">⛓ VAULT · ARQUIVOS · MÍDIA ⛓</span></div>
+      <div class="prompt-line"><span>root@digas</span>:~$ acesso concedido_</div>
+    </header>
 
-  const bootText = document.getElementById('boot-text');
-  const bootEl = document.getElementById('boot');
-  const bootLines = [
-    '> INICIALIZANDO SISTEMA digas_vault...',
-    '> MONTANDO BANCO DE DADOS [arquivos_mediafire.json]...',
-    '> VERIFICANDO INTEGRIDADE.......... OK',
-    '> CARREGANDO MÓDULOS: programas / jogos / midia / dev...',
-    '> ACESSO CONCEDIDO ✔'
-  ];
-  let li=0, ci=0;
-  function typeBoot(){
-    if(li >= bootLines.length){
-      setTimeout(finishBoot, 500);
-      return;
-    }
-    const line = bootLines[li];
-    if(ci <= line.length){
-      bootText.innerHTML = bootLines.slice(0,li).join('\n') + (li>0?'\n':'') + line.slice(0,ci) + '<span id="boot-cursor"></span>';
-      ci++;
-      setTimeout(typeBoot, 14);
-    } else {
-      li++; ci=0;
-      setTimeout(typeBoot, 160);
-    }
-  }
-  function finishBoot(){
-    bootEl.classList.add('hide');
-    setTimeout(()=>bootEl.style.display='none', 550);
-  }
-  document.getElementById('boot-skip').addEventListener('click', finishBoot);
-  typeBoot();
+    <nav class="tabs" id="tabs">
+      <button class="tab-btn active" data-tab="home">🏠 início</button>
+      <button class="tab-btn" data-tab="programas">💻 programas</button>
+      <button class="tab-btn" data-tab="jogos">🎮 jogos</button>
+      <button class="tab-btn" data-tab="filmes">🎬 filmes &amp; séries</button>
+      <button class="tab-btn" data-tab="dev">👨‍💻 desenvolvedor</button>
+    </nav>
 
-  let dataAll = [];
-  const loadErrors = { programas: null, jogos: null };
-  const ITEMS_PER_PAGE = 30;
-  const state = {
-    programas: {mode:'todos', page:0, query:''},
-    jogos:     {mode:'todos', page:0, query:''}
-  };
+    <section class="hud" id="view-home">
+      <div class="c3"></div><div class="c4"></div>
+      <div class="home-hero">
+        <div class="typed" id="homeTyped"><span class="cursor">▋</span></div>
+        <div class="stat-row" id="statRow"></div>
+      </div>
+      <div class="card-grid">
+        <div class="nav-card" data-goto="programas">
+          <span class="ic">💻</span>
+          <h4>PROGRAMAS</h4>
+          <p>Emuladores, ferramentas e utilitários catalogados no vault.</p>
+        </div>
+        <div class="nav-card" data-goto="jogos">
+          <span class="ic">🎮</span>
+          <h4>JOGOS</h4>
+          <p>Roms e jogos disponíveis para download direto.</p>
+        </div>
+        <div class="nav-card" data-goto="filmes">
+          <span class="ic">🎬</span>
+          <h4>FILMES &amp; SÉRIES</h4>
+          <p>Catálogo de filmes e séries com player integrado.</p>
+        </div>
+        <div class="nav-card" data-goto="dev">
+          <span class="ic">👨‍💻</span>
+          <h4>DESENVOLVEDOR</h4>
+          <p>Quem constrói e mantém este vault.</p>
+        </div>
+      </div>
+    </section>
 
-  function normalizar(t){ return (t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
+    <section class="hud" id="view-programas" style="display:none">
+      <div class="c3"></div><div class="c4"></div>
+      <div class="panel-title">💻 PROGRAMAS <span class="count" id="cnt-programas"></span></div>
+      <div class="subnav" data-ctx="programas">
+        <button data-mode="todos" class="active">📁 todos</button>
+        <button data-mode="alfabeto">🔤 letra</button>
+        <button data-mode="pesquisar">🔍 pesquisar</button>
+        <button data-mode="novidades">🆕 novidades</button>
+      </div>
+      <div id="body-programas"></div>
+    </section>
 
-  function porCategoria(cat){
-    return dataAll.filter(it => (it.categoria === 'jogo') === (cat === 'jogos'));
-  }
+    <section class="hud" id="view-jogos" style="display:none">
+      <div class="c3"></div><div class="c4"></div>
+      <div class="panel-title">🎮 JOGOS <span class="count" id="cnt-jogos"></span></div>
+      <div class="subnav" data-ctx="jogos">
+        <button data-mode="todos" class="active">📁 todos</button>
+        <button data-mode="alfabeto">🔤 letra</button>
+        <button data-mode="pesquisar">🔍 pesquisar</button>
+        <button data-mode="novidades">🆕 novidades</button>
+      </div>
+      <div id="body-jogos"></div>
+    </section>
 
-  
-  function comIdsUnicos(lista, prefixo){
-    return lista.map((item, idx) => ({
-      ...item,
-      _uid: prefixo + '-' + (item.id ?? idx)
-    }));
-  }
+    <!-- FILMES -->
+    <section class="hud" id="view-filmes" style="display:none">
+      <div class="c3"></div><div class="c4"></div>
+      <div class="panel-title">🎬 FILMES &amp; SÉRIES <span class="count" id="cnt-filmes"></span></div>
+      <div class="search-area" style="margin-bottom:16px;">
+        <input type="text" id="search-filmes" placeholder="🔍 Buscar filme ou série...">
+        <button id="searchBtn-filmes">buscar</button>
+        <button id="clearSearch-filmes" style="background:var(--panel-2);border:1px solid var(--line);border-radius:20px;padding:12px 18px;color:var(--text-dim);cursor:pointer;">✕ limpar</button>
+      </div>
+      <div id="body-filmes"></div>
+    </section>
 
-  async function carregarDados(){
-    let programasData = [];
-    let programasLoadError = null;
-    try {
-      const resProgs = await fetch('arquivos_mediafire.json');
-      if(!resProgs.ok){
-        throw new Error('HTTP ' + resProgs.status + ' ao buscar arquivos_mediafire.json');
+    <section class="hud" id="view-dev" style="display:none">
+      <div class="c3"></div><div class="c4"></div>
+      <div class="panel-title">👨‍💻 SOBRE O DESENVOLVEDOR</div>
+      <div class="dev-grid">
+        <div class="dev-photo-wrap">
+          <img class="dev-photo" id="devPhoto" src="imagem.jpg" alt="Foto do desenvolvedor" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 150 150%22%3E%3Crect width=%22150%22 height=%22150%22 fill=%22%230d1a14%22/%3E%3Ccircle cx=%2275%22 cy=%2258%22 r=%2230%22 fill=%22%2339ff6a%22 opacity=%220.25%22/%3E%3Cpath d=%22M20 150c0-40 25-58 55-58s55 18 55 58%22 fill=%22%2339ff6a%22 opacity=%220.25%22/%3E%3C/svg%3E';">
+          <div class="dev-photo-cap"></div>
+        </div>
+        <div class="dev-info">
+          <div class="dev-name">Digas</div>
+          <div class="dev-role">Desenvolvedor Full Stack · Especialista em Automação</div>
+          <p class="dev-bio">
+            Desenvolvedor independente com expertise em múltiplas linguagens e automação de processos.
+            Especialista em Python para automação de tarefas, web scraping e integração de sistemas.
+            Domina Lua para desenvolvimento de jogos e sistemas embarcados, JavaScript/TypeScript para
+            frontend e backend, e Dart para aplicações cross-platform com Flutter.
+          </p>
+          <div class="dev-tags">
+            <span>Python</span>
+            <span>Lua</span>
+            <span>Luau</span>
+            <span>Dart</span>
+            <span>JavaScript</span>
+            <span>TypeScript</span>
+            <span>Automação</span>
+            <span>Web Scraping</span>
+            <span>Flutter</span>
+            <span>REST APIs</span>
+          </div>
+          <div class="dev-note"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      ⚡ root@digas:~# interface estática · dados via JSON · <span class="lnk" id="topBtn">voltar ao topo ↑</span>
+    </footer>
+  </div>
+
+  <audio id="bgAudio" src="heman.m4a" loop preload="none"></audio>
+  <div id="musicPanel">
+    <div class="mp-title"><span>TRILHA SONORA</span><span id="mpStatus">pausado</span></div>
+    <div class="mp-track">🎵 musica-fundo.mp3</div>
+    <div class="eq"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="mp-controls">
+      <div class="mp-btn" id="mpToggle">▶</div>
+      <input class="mp-vol" id="mpVol" type="range" min="0" max="1" step="0.01" value="0.5">
+    </div>
+  </div>
+  <div id="musicFab" title="Música de fundo">
+    <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+  </div>
+
+  <script>
+    (function() {
+      const canvas = document.getElementById('matrix');
+      const ctx = canvas.getContext('2d');
+      let w, h, cols, drops;
+      const chars = 'アカサタナハマヤラワ0123456789$#@%&<>/\\{}[]';
+      const charWidth = 16;
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+        cols = Math.floor(w / charWidth);
+        drops = new Array(cols).fill(0).map(() => Math.random() * -40);
       }
-      const raw = await resProgs.json();
-      if(!Array.isArray(raw)){
-        throw new Error('arquivos_mediafire.json não é uma lista (array) JSON válida');
+      window.addEventListener('resize', resize);
+      resize();
+
+      function drawMatrix() {
+        ctx.fillStyle = 'rgba(5,7,10,0.08)';
+        ctx.fillRect(0, 0, w, h);
+        ctx.font = '14px monospace';
+        for (let i = 0; i < cols; i++) {
+          const ch = chars[Math.floor(Math.random() * chars.length)];
+          const x = i * charWidth;
+          const y = drops[i] * charWidth;
+          ctx.fillStyle = Math.random() > 0.96 ? '#baffc9' : '#39ff6a';
+          ctx.fillText(ch, x, y);
+          if (y > h && Math.random() > 0.975) drops[i] = 0;
+          drops[i]++;
+        }
       }
-      
-      const temCategoria = raw.length > 0 && Object.prototype.hasOwnProperty.call(raw[0], 'categoria');
-      programasData = temCategoria
-        ? raw.filter(item => item.categoria === 'programa')
-        : raw.map(item => ({ ...item, categoria: 'programa' }));
-    } catch(e) {
-      programasLoadError = e.message;
-      console.error('[vault] ❌ Erro ao carregar arquivos_mediafire.json:', e.message);
-      programasData = [];
-    }
-    loadErrors.programas = programasLoadError;
+      setInterval(drawMatrix, 55);
 
-    let jogosData = [];
-    let jogosLoadError = null;
-    try {
-      const resJogos = await fetch('jogos_mediafire.json');
-      if(!resJogos.ok){
-        throw new Error('HTTP ' + resJogos.status + ' ao buscar jogos_mediafire.json');
+      // boot
+      const bootText = document.getElementById('boot-text');
+      const bootEl = document.getElementById('boot');
+      const bootLines = [
+        '> INICIALIZANDO SISTEMA digas_vault...',
+        '> MONTANDO BANCO DE DADOS [arquivos_mediafire.json]...',
+        '> VERIFICANDO INTEGRIDADE.......... OK',
+        '> CARREGANDO MÓDULOS: programas / jogos / filmes / dev...',
+        '> ACESSO CONCEDIDO ✔'
+      ];
+      let li = 0,
+        ci = 0;
+
+      function typeBoot() {
+        if (li >= bootLines.length) {
+          setTimeout(finishBoot, 500);
+          return;
+        }
+        const line = bootLines[li];
+        if (ci <= line.length) {
+          bootText.innerHTML = bootLines.slice(0, li).join('\n') + (li > 0 ? '\n' : '') + line.slice(0, ci) +
+            '<span id="boot-cursor"></span>';
+          ci++;
+          setTimeout(typeBoot, 14);
+        } else {
+          li++;
+          ci = 0;
+          setTimeout(typeBoot, 160);
+        }
       }
-      const rawJogos = await resJogos.json();
-      if(!Array.isArray(rawJogos)){
-        throw new Error('jogos_mediafire.json não é uma lista (array) JSON válida');
+
+      function finishBoot() {
+        bootEl.classList.add('hide');
+        setTimeout(() => bootEl.style.display = 'none', 550);
       }
-      
-      const temCategoria = rawJogos.length > 0 && Object.prototype.hasOwnProperty.call(rawJogos[0], 'categoria');
-      jogosData = temCategoria
-        ? rawJogos.filter(item => item.categoria === 'jogo')
-        : rawJogos.map(item => ({ ...item, categoria: 'jogo' }));
+      document.getElementById('boot-skip').addEventListener('click', finishBoot);
+      typeBoot();
 
-      if(jogosData.length === 0){
-        console.warn('[vault] jogos_mediafire.json carregou, mas nenhum item tem categoria "jogo". Confira o valor do campo "categoria" no arquivo.');
+      // DATA
+      let dataAll = [];
+      let filmesData = [];
+      const loadErrors = { programas: null, jogos: null, filmes: null };
+      const ITEMS_PER_PAGE = 30;
+      const state = {
+        programas: { mode: 'todos', page: 0, query: '' },
+        jogos: { mode: 'todos', page: 0, query: '' },
+        filmes: { query: '' }
+      };
+
+      function normalizar(t) { return (t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
+
+      function porCategoria(cat) {
+        if (cat === 'filmes') return filmesData;
+        return dataAll.filter(it => (it.categoria === 'jogo') === (cat === 'jogos'));
       }
-    } catch(e) {
-      jogosLoadError = e.message;
-      console.error('[vault] ❌ Erro ao carregar jogos_mediafire.json:', e.message);
-      console.error('[vault] Verifique: 1) o arquivo está na mesma pasta do HTML e com esse nome exato; 2) você está abrindo a página por um servidor http:// (ex: "npx serve" ou Live Server), não como file:// direto no navegador — fetch de arquivo local é bloqueado por CORS nesse caso.');
-      jogosData = [];
-    }
-    loadErrors.jogos = jogosLoadError;
 
-    dataAll = [
-      ...comIdsUnicos(programasData, 'prog'),
-      ...comIdsUnicos(jogosData, 'jogo')
-    ];
-    dataAll.sort((a,b)=>a.nome_arquivo.localeCompare(b.nome_arquivo));
-
-    document.getElementById('cnt-programas').textContent = '📊 ' + porCategoria('programas').length + ' itens';
-    document.getElementById('cnt-jogos').textContent = '📊 ' + porCategoria('jogos').length + ' itens';
-    renderStats();
-    renderPrograms('programas');
-    renderPrograms('jogos');
-    typeHome();
-  }
-
-  function renderStats(){
-    const row = document.getElementById('statRow');
-    row.innerHTML = `
-      <div class="stat-card"><div class="num">${dataAll.length}</div><div class="lbl">TOTAL</div></div>
-      <div class="stat-card"><div class="num">${porCategoria('programas').length}</div><div class="lbl">PROGRAMAS</div></div>
-      <div class="stat-card"><div class="num">${porCategoria('jogos').length}</div><div class="lbl">JOGOS</div></div>
-    `;
-  }
-
-  function typeHome(){
-    const el = document.getElementById('homeTyped');
-    const msg = `bem-vindo ao vault, root.\n${dataAll.length} arquivos catalogados e prontos para acesso.`;
-    let i=0;
-    function step(){
-      if(i<=msg.length){
-        el.innerHTML = msg.slice(0,i).replace(/\n/g,'<br>') + '<span class="cursor">▋</span>';
-        i++;
-        setTimeout(step, 22);
+      function comIdsUnicos(lista, prefixo) {
+        return lista.map((item, idx) => ({
+          ...item,
+          _uid: prefixo + '-' + (item.id ?? idx)
+        }));
       }
-    }
-    step();
-  }
 
-  function getFilteredList(ctx){
-    const s = state[ctx];
-    let base = porCategoria(ctx);
-    if(s.mode === 'novidades') base = [...base].reverse().slice(0,20);
-    if(s.mode === 'pesquisar' && s.query) base = base.filter(it => normalizar(it.nome_arquivo).includes(normalizar(s.query)));
-    if(s.mode === 'letra') base = base.filter(it => it.nome_arquivo.toUpperCase().startsWith(s.letra||'@@'));
-    return base;
-  }
+      async function carregarDados() {
+        // Programas
+        let programasData = [];
+        let programasLoadError = null;
+        try {
+          const resProgs = await fetch('arquivos_mediafire.json');
+          if (!resProgs.ok) throw new Error('HTTP ' + resProgs.status);
+          const raw = await resProgs.json();
+          if (!Array.isArray(raw)) throw new Error('JSON inválido');
+          const temCategoria = raw.length > 0 && Object.prototype.hasOwnProperty.call(raw[0], 'categoria');
+          programasData = temCategoria ?
+            raw.filter(item => item.categoria === 'programa') :
+            raw.map(item => ({ ...item, categoria: 'programa' }));
+        } catch (e) {
+          programasLoadError = e.message;
+          console.error('[vault] Erro programas:', e.message);
+          programasData = [];
+        }
+        loadErrors.programas = programasLoadError;
 
-  function renderList(ctx, items){
-    const s = state[ctx];
+        // Jogos
+        let jogosData = [];
+        let jogosLoadError = null;
+        try {
+          const resJogos = await fetch('jogos_mediafire.json');
+          if (!resJogos.ok) throw new Error('HTTP ' + resJogos.status);
+          const rawJogos = await resJogos.json();
+          if (!Array.isArray(rawJogos)) throw new Error('JSON inválido');
+          const temCategoria = rawJogos.length > 0 && Object.prototype.hasOwnProperty.call(rawJogos[0], 'categoria');
+          jogosData = temCategoria ?
+            rawJogos.filter(item => item.categoria === 'jogo') :
+            rawJogos.map(item => ({ ...item, categoria: 'jogo' }));
+        } catch (e) {
+          jogosLoadError = e.message;
+          console.error('[vault] Erro jogos:', e.message);
+          jogosData = [];
+        }
+        loadErrors.jogos = jogosLoadError;
 
-    const arquivo = ctx === 'jogos' ? 'jogos_mediafire.json' : 'arquivos_mediafire.json';
-    if(items.length === 0 && loadErrors[ctx]){
-      return `<div class="text-error">
-        ⚠️ ${arquivo} não carregou.<br><br>
-        <strong>Erro:</strong> ${loadErrors[ctx]}<br><br>
-        Confira no console do navegador (F12) os detalhes, e veja se:<br>
-        1) o arquivo <code>${arquivo}</code> está na mesma pasta deste HTML;<br>
-        2) o nome está exatamente igual (sem espaços/maiúsculas trocadas);<br>
-        3) a página está sendo aberta via um servidor local (http://), e não direto do disco (file://).
-      </div>`;
-    }
+        // Filmes
+        let filmesLoadError = null;
+        try {
+          const resFilmes = await fetch('filmes.json');
+          if (!resFilmes.ok) throw new Error('HTTP ' + resFilmes.status);
+          const rawFilmes = await resFilmes.json();
+          if (!Array.isArray(rawFilmes)) throw new Error('JSON inválido');
+          filmesData = rawFilmes.map(item => ({
+            ...item,
+            _uid: 'filme-' + (item.id ?? Math.random().toString(36).substr(2, 6))
+          }));
+        } catch (e) {
+          filmesLoadError = e.message;
+          console.error('[vault] Erro filmes:', e.message);
+          filmesData = [];
+        }
+        loadErrors.filmes = filmesLoadError;
 
-    const totalPages = Math.max(1, Math.ceil(items.length / ITEMS_PER_PAGE));
-    if(s.page >= totalPages) s.page = totalPages-1;
-    const slice = items.slice(s.page*ITEMS_PER_PAGE, (s.page+1)*ITEMS_PER_PAGE);
+        dataAll = [
+          ...comIdsUnicos(programasData, 'prog'),
+          ...comIdsUnicos(jogosData, 'jogo')
+        ];
+        dataAll.sort((a, b) => a.nome_arquivo.localeCompare(b.nome_arquivo));
 
-    let html = '<div class="item-list">';
-    if(items.length === 0){
-      html += `<div class="text-muted">❌ Nenhum arquivo encontrado.</div>`;
-    } else {
-      slice.forEach(it=>{
-        html += `<button class="item-btn" data-ctx="${ctx}" data-uid="${it._uid}">
-          <span class="name">📄 ${it.nome_arquivo}</span>
-          <span class="badge">link</span>
-        </button>`;
-      });
-    }
-    html += '</div>';
+        document.getElementById('cnt-programas').textContent = '📊 ' + porCategoria('programas').length + ' itens';
+        document.getElementById('cnt-jogos').textContent = '📊 ' + porCategoria('jogos').length + ' itens';
+        document.getElementById('cnt-filmes').textContent = '📊 ' + filmesData.length + ' filmes';
 
-    if(items.length > ITEMS_PER_PAGE){
-      html += `<div class="back-row">
-        <button class="btn-ghost" data-pg="prev" data-ctx="${ctx}" ${s.page===0?'disabled':''}>◀ anterior</button>
-        <span class="page-info">página ${s.page+1} de ${totalPages}</span>
-        <button class="btn-ghost" data-pg="next" data-ctx="${ctx}" ${s.page>=totalPages-1?'disabled':''}>próximo ▶</button>
-      </div>`;
-    }
-    return html;
-  }
-
-  function renderBody(ctx){
-    const s = state[ctx];
-    const container = document.getElementById('body-'+ctx);
-    let html = '';
-
-    if(s.mode === 'letra'){
-      html += '<div class="alpha-grid">';
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(ch=>{
-        html += `<button class="alpha-btn" data-letra="${ch}" data-ctx="${ctx}">${ch}</button>`;
-      });
-      html += '</div>';
-      if(s.letra){
-        html += renderList(ctx, getFilteredList(ctx));
-      } else {
-        html += `<div class="text-muted">Escolha uma letra acima.</div>`;
+        renderStats();
+        renderPrograms('programas');
+        renderPrograms('jogos');
+        renderFilmes();
+        typeHome();
       }
-    } else if(s.mode === 'pesquisar'){
-      html += `<div class="search-area">
-        <input type="text" id="search-${ctx}" placeholder="ex: Citra, Dolphin, Mario..." value="${s.query||''}">
-        <button id="searchBtn-${ctx}">🔍 buscar</button>
-      </div>`;
-      if(s.query){
-        html += renderList(ctx, getFilteredList(ctx));
-      } else {
-        html += `<div class="text-muted">Digite um termo para pesquisar.</div>`;
+
+      function renderStats() {
+        const row = document.getElementById('statRow');
+        row.innerHTML = `
+          <div class="stat-card"><div class="num">${dataAll.length + filmesData.length}</div><div class="lbl">TOTAL</div></div>
+          <div class="stat-card"><div class="num">${porCategoria('programas').length}</div><div class="lbl">PROGRAMAS</div></div>
+          <div class="stat-card"><div class="num">${porCategoria('jogos').length}</div><div class="lbl">JOGOS</div></div>
+          <div class="stat-card"><div class="num">${filmesData.length}</div><div class="lbl">FILMES</div></div>
+        `;
       }
-    } else {
-      html += renderList(ctx, getFilteredList(ctx));
-    }
 
-    container.innerHTML = html;
-    wireBodyEvents(ctx);
-  }
+      function typeHome() {
+        const el = document.getElementById('homeTyped');
+        const msg = `bem-vindo ao vault, root.\n${dataAll.length + filmesData.length} arquivos catalogados e prontos para acesso.`;
+        let i = 0;
 
-  function wireBodyEvents(ctx){
-    const container = document.getElementById('body-'+ctx);
+        function step() {
+          if (i <= msg.length) {
+            el.innerHTML = msg.slice(0, i).replace(/\n/g, '<br>') + '<span class="cursor">▋</span>';
+            i++;
+            setTimeout(step, 22);
+          }
+        }
+        step();
+      }
 
-    container.querySelectorAll('.item-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const item = dataAll.find(x=>x._uid===btn.dataset.uid);
-        if(item) showDetail(ctx, item);
+      // --- PROGRAMAS E JOGOS (mesma lógica) ---
+      function getFilteredList(ctx) {
+        const s = state[ctx];
+        let base = porCategoria(ctx);
+        if (s.mode === 'novidades') base = [...base].reverse().slice(0, 20);
+        if (s.mode === 'pesquisar' && s.query) base = base.filter(it => normalizar(it.nome_arquivo).includes(normalizar(s
+          .query)));
+        if (s.mode === 'letra') base = base.filter(it => it.nome_arquivo.toUpperCase().startsWith(s.letra || '@@'));
+        return base;
+      }
+
+      function renderList(ctx, items) {
+        const s = state[ctx];
+        const arquivo = ctx === 'jogos' ? 'jogos_mediafire.json' : 'arquivos_mediafire.json';
+
+        if (items.length === 0 && loadErrors[ctx]) {
+          return `<div class="text-error">⚠️ ${arquivo} não carregou.<br><br><strong>Erro:</strong> ${loadErrors[ctx]}</div>`;
+        }
+
+        const totalPages = Math.max(1, Math.ceil(items.length / ITEMS_PER_PAGE));
+        if (s.page >= totalPages) s.page = totalPages - 1;
+        const slice = items.slice(s.page * ITEMS_PER_PAGE, (s.page + 1) * ITEMS_PER_PAGE);
+
+        let html = '<div class="item-list">';
+        if (items.length === 0) {
+          html += `<div class="text-muted">❌ Nenhum arquivo encontrado.</div>`;
+        } else {
+          slice.forEach(it => {
+            html += `<button class="item-btn" data-ctx="${ctx}" data-uid="${it._uid}">
+              <span class="name">📄 ${it.nome_arquivo}</span>
+              <span class="badge">link</span>
+            </button>`;
+          });
+        }
+        html += '</div>';
+
+        if (items.length > ITEMS_PER_PAGE) {
+          html += `<div class="back-row">
+            <button class="btn-ghost" data-pg="prev" data-ctx="${ctx}" ${s.page===0?'disabled':''}>◀ anterior</button>
+            <span class="page-info">página ${s.page+1} de ${totalPages}</span>
+            <button class="btn-ghost" data-pg="next" data-ctx="${ctx}" ${s.page>=totalPages-1?'disabled':''}>próximo ▶</button>
+          </div>`;
+        }
+        return html;
+      }
+
+      function renderBody(ctx) {
+        const s = state[ctx];
+        const container = document.getElementById('body-' + ctx);
+        let html = '';
+
+        if (s.mode === 'letra') {
+          html += '<div class="alpha-grid">';
+          'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(ch => {
+            html += `<button class="alpha-btn" data-letra="${ch}" data-ctx="${ctx}">${ch}</button>`;
+          });
+          html += '</div>';
+          if (s.letra) {
+            html += renderList(ctx, getFilteredList(ctx));
+          } else {
+            html += `<div class="text-muted">Escolha uma letra acima.</div>`;
+          }
+        } else if (s.mode === 'pesquisar') {
+          html += `<div class="search-area">
+            <input type="text" id="search-${ctx}" placeholder="ex: Citra, Dolphin, Mario..." value="${s.query||''}">
+            <button id="searchBtn-${ctx}">🔍 buscar</button>
+          </div>`;
+          if (s.query) {
+            html += renderList(ctx, getFilteredList(ctx));
+          } else {
+            html += `<div class="text-muted">Digite um termo para pesquisar.</div>`;
+          }
+        } else {
+          html += renderList(ctx, getFilteredList(ctx));
+        }
+
+        container.innerHTML = html;
+        wireBodyEvents(ctx);
+      }
+
+      function wireBodyEvents(ctx) {
+        const container = document.getElementById('body-' + ctx);
+
+        container.querySelectorAll('.item-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const item = dataAll.find(x => x._uid === btn.dataset.uid);
+            if (item) showDetail(ctx, item);
+          });
+        });
+
+        container.querySelectorAll('[data-pg]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            state[ctx].page += (btn.dataset.pg === 'next' ? 1 : -1);
+            renderBody(ctx);
+          });
+        });
+
+        container.querySelectorAll('.alpha-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            state[ctx].letra = btn.dataset.letra;
+            state[ctx].page = 0;
+            renderBody(ctx);
+          });
+        });
+
+        const input = container.querySelector('#search-' + ctx);
+        const searchBtn = container.querySelector('#searchBtn-' + ctx);
+        if (searchBtn) {
+          searchBtn.addEventListener('click', () => {
+            state[ctx].query = input.value.trim();
+            state[ctx].page = 0;
+            renderBody(ctx);
+          });
+          input.addEventListener('keydown', e => { if (e.key === 'Enter') searchBtn.click(); });
+        }
+      }
+
+      function showDetail(ctx, item) {
+        const container = document.getElementById('body-' + ctx);
+        container.innerHTML = `
+          <div class="detail-box">
+            <h3>${item.nome_arquivo}</h3>
+            <div class="link-field">🔗 <a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.link}</a></div>
+            <button class="action-btn" id="copyBtn-${ctx}">📋 copiar link</button>
+            <div class="back-row"><button class="btn-ghost" id="backBtn-${ctx}">🔙 voltar</button></div>
+          </div>`;
+        document.getElementById('copyBtn-' + ctx).addEventListener('click', function() {
+          navigator.clipboard.writeText(item.link).then(() => {
+            this.textContent = '✅ copiado!';
+            setTimeout(() => this.textContent = '📋 copiar link', 1800);
+          });
+        });
+        document.getElementById('backBtn-' + ctx).addEventListener('click', () => renderBody(ctx));
+      }
+
+      function renderPrograms(ctx) { renderBody(ctx); }
+
+      // --- FILMES ---
+      function renderFilmes() {
+        const container = document.getElementById('body-filmes');
+        const query = state.filmes.query || '';
+
+        let filtered = filmesData;
+        if (query) {
+          const q = normalizar(query);
+          filtered = filmesData.filter(f =>
+            normalizar(f.nome_arquivo).includes(q) ||
+            normalizar(f.categoria || '').includes(q)
+          );
+        }
+
+        if (filmesData.length === 0 && loadErrors.filmes) {
+          container.innerHTML = `<div class="text-error">⚠️ filmes.json não carregou.<br><br><strong>Erro:</strong> ${loadErrors.filmes}</div>`;
+          return;
+        }
+
+        if (filtered.length === 0) {
+          container.innerHTML = `<div class="text-muted">🎬 Nenhum filme ou série encontrado.</div>`;
+          return;
+        }
+
+        let html = `<div class="movies-grid">`;
+        filtered.forEach(f => {
+          const capa = f.foto_capa || 'data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 300%22%3E%3Crect width=%22200%22 height=%22300%22 fill=%22%230d1a14%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%2339ff6a%22 font-family=%22monospace%22 font-size=%2214%22%3E🎬%3C/text%3E%3C/svg%3E';
+          html += `
+            <div class="movie-card" data-uid="${f._uid}">
+              <img src="${capa}" alt="${f.nome_arquivo}" loading="lazy" onerror="this.src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 300%22%3E%3Crect width=%22200%22 height=%22300%22 fill=%22%230d1a14%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%2339ff6a%22 font-family=%22monospace%22 font-size=%2214%22%3E🎬%3C/text%3E%3C/svg%3E'">
+              <div class="movie-info">
+                <div class="movie-title">${f.nome_arquivo}</div>
+                <div class="movie-category">${f.categoria || 'Sem categoria'}</div>
+              </div>
+              <div class="movie-badge">▶ assistir</div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+        container.innerHTML = html;
+
+        // Eventos dos cards
+        container.querySelectorAll('.movie-card').forEach(card => {
+          card.addEventListener('click', () => {
+            const item = filmesData.find(f => f._uid === card.dataset.uid);
+            if (item) showFilmeDetail(item);
+          });
+        });
+      }
+
+      function showFilmeDetail(item) {
+        const container = document.getElementById('body-filmes');
+        const link = item.link || '';
+
+        container.innerHTML = `
+          <div class="movie-detail-container">
+            <div class="movie-detail-header">
+              <div class="movie-detail-poster">
+                <img src="${item.foto_capa || 'data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 300%22%3E%3Crect width=%22200%22 height=%22300%22 fill=%22%230d1a14%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%2339ff6a%22 font-family=%22monospace%22 font-size=%2214%22%3E🎬%3C/text%3E%3C/svg%3E'}" alt="${item.nome_arquivo}" onerror="this.src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 300%22%3E%3Crect width=%22200%22 height=%22300%22 fill=%22%230d1a14%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%2339ff6a%22 font-family=%22monospace%22 font-size=%2214%22%3E🎬%3C/text%3E%3C/svg%3E'">
+              </div>
+              <div class="movie-detail-info">
+                <h2>${item.nome_arquivo}</h2>
+                <div class="meta">📂 <span>${item.categoria || 'Sem categoria'}</span></div>
+                <button class="action-btn" id="copyFilmeBtn">📋 copiar link</button>
+              </div>
+            </div>
+            <div class="movie-detail-player">
+              <iframe
+                src="https://myembed.biz/filme/${link}"
+                width="100%"
+                height="500"
+                frameborder="0"
+                allowfullscreen
+                loading="lazy"
+                allow="encrypted-media"
+              ></iframe>
+            </div>
+            <div class="back-row">
+              <button class="btn-ghost" id="backFilmesBtn">🔙 voltar para lista</button>
+            </div>
+          </div>
+        `;
+
+        
+
+        document.getElementById('backFilmesBtn').addEventListener('click', renderFilmes);
+      }
+
+      // --- NAVEGAÇÃO ---
+      document.querySelectorAll('.subnav').forEach(nav => {
+        const ctx = nav.dataset.ctx;
+        nav.querySelectorAll('button').forEach(btn => {
+          btn.addEventListener('click', () => {
+            nav.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            state[ctx].mode = btn.dataset.mode;
+            state[ctx].page = 0;
+            state[ctx].letra = null;
+            renderBody(ctx);
+          });
+        });
       });
-    });
-    container.querySelectorAll('[data-pg]').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        state[ctx].page += (btn.dataset.pg==='next'?1:-1);
-        renderBody(ctx);
+
+      // Busca filmes
+      document.getElementById('searchBtn-filmes').addEventListener('click', () => {
+        const input = document.getElementById('search-filmes');
+        state.filmes.query = input.value.trim();
+        renderFilmes();
       });
-    });
-    container.querySelectorAll('.alpha-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        state[ctx].letra = btn.dataset.letra;
-        state[ctx].page = 0;
-        renderBody(ctx);
+      document.getElementById('search-filmes').addEventListener('keydown', e => {
+        if (e.key === 'Enter') document.getElementById('searchBtn-filmes').click();
       });
-    });
-    const input = container.querySelector('#search-'+ctx);
-    const searchBtn = container.querySelector('#searchBtn-'+ctx);
-    if(searchBtn){
-      searchBtn.addEventListener('click', ()=>{
-        state[ctx].query = input.value.trim();
-        state[ctx].page = 0;
-        renderBody(ctx);
+      document.getElementById('clearSearch-filmes').addEventListener('click', () => {
+        document.getElementById('search-filmes').value = '';
+        state.filmes.query = '';
+        renderFilmes();
       });
-      input.addEventListener('keydown', e=>{ if(e.key==='Enter') searchBtn.click(); });
-    }
-  }
 
-  function showDetail(ctx, item){
-    const container = document.getElementById('body-'+ctx);
-    container.innerHTML = `
-      <div class="detail-box">
-        <h3>${item.nome_arquivo}</h3>
-        <div class="link-field">🔗 <a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.link}</a></div>
-        <button class="action-btn" id="copyBtn-${ctx}">📋 copiar link</button>
-        <div class="back-row"><button class="btn-ghost" id="backBtn-${ctx}">🔙 voltar</button></div>
-      </div>`;
-    document.getElementById('copyBtn-'+ctx).addEventListener('click', function(){
-      navigator.clipboard.writeText(item.link).then(()=>{
-        this.textContent = '✅ copiado!';
-        setTimeout(()=>this.textContent='📋 copiar link', 1800);
+      // TABS
+      const tabs = ['home', 'programas', 'jogos', 'filmes', 'dev'];
+
+      function goTab(name) {
+        tabs.forEach(t => {
+          document.getElementById('view-' + t).style.display = (t === name ? 'block' : 'none');
+        });
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (name === 'filmes') renderFilmes();
+      }
+
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.addEventListener('click', () => goTab(b.dataset.tab));
       });
-    });
-    document.getElementById('backBtn-'+ctx).addEventListener('click', ()=>renderBody(ctx));
-  }
 
-  function renderPrograms(ctx){ renderBody(ctx); }
-
-  document.querySelectorAll('.subnav').forEach(nav=>{
-    const ctx = nav.dataset.ctx;
-    nav.querySelectorAll('button').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        nav.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
-        state[ctx].mode = btn.dataset.mode;
-        state[ctx].page = 0;
-        state[ctx].letra = null;
-        renderBody(ctx);
+      document.querySelectorAll('[data-goto]').forEach(c => {
+        c.addEventListener('click', () => goTab(c.dataset.goto));
       });
-    });
-  });
 
-  const tabs = ['home','programas','jogos','midia','dev'];
-  function goTab(name){
-    tabs.forEach(t=>{
-      document.getElementById('view-'+t).style.display = (t===name?'block':'none');
-    });
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
-    window.scrollTo({top:0, behavior:'smooth'});
-  }
-  document.querySelectorAll('.tab-btn').forEach(b=>{
-    b.addEventListener('click', ()=>goTab(b.dataset.tab));
-  });
-  document.querySelectorAll('[data-goto]').forEach(c=>{
-    c.addEventListener('click', ()=>goTab(c.dataset.goto));
-  });
-  document.getElementById('topBtn').addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
+      document.getElementById('topBtn').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-  const fab = document.getElementById('musicFab');
-  const panel = document.getElementById('musicPanel');
-  const audio = document.getElementById('bgAudio');
-  const mpToggle = document.getElementById('mpToggle');
-  const mpStatus = document.getElementById('mpStatus');
-  const mpVol = document.getElementById('mpVol');
-  audio.volume = 0.5;
-  let panelOpen = false;
+      // --- MÚSICA ---
+      const fab = document.getElementById('musicFab');
+      const panel = document.getElementById('musicPanel');
+      const audio = document.getElementById('bgAudio');
+      const mpToggle = document.getElementById('mpToggle');
+      const mpStatus = document.getElementById('mpStatus');
+      const mpVol = document.getElementById('mpVol');
+      audio.volume = 0.5;
+      let panelOpen = false;
 
-  fab.addEventListener('click', ()=>{
-    panelOpen = !panelOpen;
-    panel.classList.toggle('open', panelOpen);
-  });
-
-  function setPlaying(playing){
-    fab.classList.toggle('playing', playing);
-    panel.classList.toggle('on', playing);
-    mpToggle.textContent = playing ? '❚❚' : '▶';
-    mpStatus.textContent = playing ? 'tocando' : 'pausado';
-  }
-
-  mpToggle.addEventListener('click', ()=>{
-    if(audio.paused){
-      audio.play().then(()=>setPlaying(true)).catch(()=>{
-        mpStatus.textContent = 'adicione musica-fundo.mp3';
+      fab.addEventListener('click', () => {
+        panelOpen = !panelOpen;
+        panel.classList.toggle('open', panelOpen);
       });
-    } else {
-      audio.pause();
-      setPlaying(false);
-    }
-  });
-  mpVol.addEventListener('input', ()=>{ audio.volume = parseFloat(mpVol.value); });
 
-  document.addEventListener('click', (e)=>{
-    if(panelOpen && !panel.contains(e.target) && !fab.contains(e.target)){
-      panelOpen = false;
-      panel.classList.remove('open');
-    }
-  });
+      function setPlaying(playing) {
+        fab.classList.toggle('playing', playing);
+        panel.classList.toggle('on', playing);
+        mpToggle.textContent = playing ? '❚❚' : '▶';
+        mpStatus.textContent = playing ? 'tocando' : 'pausado';
+      }
 
-  carregarDados();
-})();
-</script>
+      mpToggle.addEventListener('click', () => {
+        if (audio.paused) {
+          audio.play().then(() => setPlaying(true)).catch(() => {
+            mpStatus.textContent = 'adicione musica-fundo.mp3';
+          });
+        } else {
+          audio.pause();
+          setPlaying(false);
+        }
+      });
+
+      mpVol.addEventListener('input', () => { audio.volume = parseFloat(mpVol.value); });
+
+      document.addEventListener('click', (e) => {
+        if (panelOpen && !panel.contains(e.target) && !fab.contains(e.target)) {
+          panelOpen = false;
+          panel.classList.remove('open');
+        }
+      });
+
+      // INICIALIZAR
+      carregarDados();
+    })();
+  </script>
 </body>
 </html>

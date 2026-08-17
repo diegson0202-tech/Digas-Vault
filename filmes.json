@@ -1,0 +1,794 @@
+[
+  {
+    "id": 1,
+    "nome_arquivo": "Rocky - Um Lutador",
+    "sinopse": "Um boxer pouco conhecido tem uma grande oportunidade de enfrentar o campeão dos pesos pesados.",
+    "link": "1366",
+    "categoria": "Drama",
+    "foto_capa": "https://upload.wikimedia.org/wikipedia/pt/1/18/Rocky_poster.jpg"
+  },
+  {
+    "id": 2,
+    "nome_arquivo": "O Poderoso Chefão",
+    "sinopse": "A família mafiosa Corleone luta para manter o poder em meio a traições e rivalidades.",
+    "link": "238",
+    "categoria": "Drama/Crime",
+    "foto_capa": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGxFPTj6UdQdt2EkkGTh2lfDm0WQB8uh337xR42ZdvseThCtVmAmSEmr1p&s=10"
+  },
+  {
+    "id": 3,
+    "nome_arquivo": "Pulp Fiction - Tempo de Violência",
+    "sinopse": "As vidas de dois assassinos de aluguel, um boxeador, a esposa de um gângster e dois restaurantes se entrelaçam em quatro histórias de violência e redenção, em uma narrativa não linear que se tornou um marco do cinema.",
+    "link": "680",
+    "categoria": "Crime/Drama",
+    "foto_capa": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtYhW6ktzalacIrhzXTA_9rmQNT6uKpH6kA2e_L8r2EGAUjQU11wusmYfW&s=10"
+  },
+  {
+    "id": 4,
+    "nome_arquivo": "A Lista de Schindler",
+    "sinopse": "O empresário alemão Oskar Schindler salva a vida de mais de mil judeus durante o Holocausto, empregando-os em sua fábrica e usando sua influência para protegê-los dos campos de concentração nazistas.",
+    "link": "424",
+    "categoria": "Drama/Histórico",
+    "foto_capa": "https://www.themoviedb.org/t/p/w600_and_h900_face/jbnF7dVi8iu80zTsWAC0Om8ZYOu.jpg"
+  },
+  {
+    "id": 5,
+    "nome_arquivo": "O Senhor dos Anéis - O Retorno do Rei",
+    "sinopse": "A batalha final pela Terra Média se aproxima enquanto Frodo e Sam continuam sua jornada para destruir o Um Anel na Montanha da Perdição, enquanto Aragorn se prepara para liderar os exércitos do bem contra Sauron.",
+    "link": "122",
+    "categoria": "Fantasia/Aventura",
+    "foto_capa": "https://www.themoviedb.org/t/p/w600_and_h900_face/rU4oIKv5I4C59DpcXKmT7kNwGI0.jpg"
+  },
+  {
+    "id": 6,
+    "nome_arquivo": "A Origem",
+    "sinopse": "Dom Cobb é um ladrão especializado em extrair segredos do subconsciente das pessoas durante o estado de sonho. Ele recebe uma oferta para plantar uma ideia na mente de um empresário, uma tarefa aparentemente impossível.",
+    "link": "27205",
+    "categoria": "Ficção Científica/Suspense",
+    "foto_capa": "https://www.themoviedb.org/t/p/w600_and_h900_face/9e3Dz7aCANy5aRUQF745IlNloJ1.jpg"
+  },
+  {
+    "id": 7,
+    "nome_arquivo": "Bastardos Inglórios",
+    "sinopse": "Durante a Segunda Guerra Mundial, um grupo de soldados judeus americanos conhecidos como 'Os Bastardos' é encarregado de executar uma missão para assassinar líderes nazistas, enquanto uma jovem francesa planeja sua própria vingança.",
+    "link": "16869",
+    "categoria": "Guerra/Drama",
+    "foto_capa": "https://www.themoviedb.org/t/p/w600_and_h900_face/6UjYycIR6VLYgggfNpmSPJHmFS0.jpg"
+  },
+  {
+    "id": 8,
+    "nome_arquivo": "O Lobo de Wall Street",
+    "sinopse": "A verdadeira história de Jordan Belfort, um corretor da bolsa de valores que construiu um império de corrupção, fraudes e excessos nos anos 90, antes de ser investigado pelo FBI.",
+    "link": "106646",
+    "categoria": "Drama/Comédia",
+    "foto_capa": "https://www.themoviedb.org/t/p/w600_and_h900_face/sIy0jXDkaMf3SDZGaWcmkC2IOl.jpg"
+  },
+  {
+    "id": 9,
+    "nome_arquivo": "Django Livre",
+    "sinopse": "Django é um escravo liberto que se une a um caçador de recompensas alemão para resgatar sua esposa de um cruel fazendeiro de escravos no sul dos Estados Unidos, em uma jornada violenta e cheia de vingança.",
+    "link": "68718",
+    "categoria": "Faroeste/Drama",
+    "foto_capa": "https://www.themoviedb.org/t/p/w600_and_h900_face/ar63Sx8jeqk0OOu2uchS477S2zE.jpg"
+  },
+  {
+    "id": 10,
+    "nome_arquivo": "Clube da Luta",
+    "sinopse": "Um funcionário público insone e um vendedor de sabonetes formam um clube de luta subterrâneo que evolui para algo muito maior, enquanto o narrador sem nome luta contra sua própria identidade.",
+    "link": "550",
+    "categoria": "Drama/Suspense",
+    "foto_capa": "https://www.themoviedb.org/t/p/w600_and_h900_face/mCICnh7QBH0gzYaTQChBDDVIKdm.jpg"
+  },
+  {
+    "id": 11,
+    "nome_arquivo": "Matrix",
+    "sinopse": "Um hacker conhecido como Neo descobre que a realidade que conhece é uma simulação criada por máquinas inteligentes para controlar a humanidade, e se junta a uma rebelião para libertar a mente das pessoas.",
+    "link": "https://www.imdb.com/title/tt0133093/",
+    "categoria": "Ficção Científica/Ação",
+    "foto_capa": "https://upload.wikimedia.org/wikipedia/pt/c/c1/The_Matrix_Poster.jpg"
+  },
+  {
+    "id": 12,
+    "nome_arquivo": "Interestelar",
+    "sinopse": "Uma equipe de exploradores viaja através de um buraco de minhoca em busca de um novo lar para a humanidade, enquanto a Terra enfrenta uma crise de recursos e a extinção da espécie.",
+    "link": "157336",
+    "categoria": "Ficção Científica/Drama",
+    "foto_capa": "https://www.themoviedb.org/t/p/w600_and_h900_face/6ricSDD83BClJsFdGB6x7cM0MFQ.jpg"
+  },
+  {
+    "id": 13,
+    "nome_arquivo": "O Cavaleiro das Trevas",
+    "sinopse": "Batman, com a ajuda do tenente Gordon e do promotor Harvey Dent, enfrenta o Coringa, um criminoso anárquico que quer mergulhar Gotham City no caos e provar que até o homem mais justo pode cair na loucura.",
+    "link": "155",
+    "categoria": "Ação/Suspense",
+    "foto_capa": "https://www.themoviedb.org/t/p/w600_and_h900_face/4lj1ikfsSmMZNyfdi8R8Tv5tsgb.jpg"
+  },
+  {
+    "id": 14,
+    "nome_arquivo": "Forrest Gump - O Contador de Histórias",
+    "sinopse": "Forrest Gump, um homem com QI abaixo da média, testemunha e participa de vários eventos históricos dos EUA, enquanto busca o amor de sua vida, Jenny, em uma jornada que o leva a se tornar uma lenda sem querer.",
+    "link": "13",
+    "categoria": "Drama/Comédia",
+    "foto_capa": "https://www.themoviedb.org/t/p/w600_and_h900_face/d74WpIsH8379TIL4wUxDneRCYv2.jpg"
+  },
+  {
+    "id": 16,
+    "nome_arquivo": "Gladiador",
+    "sinopse": "Um general romano é traído e escravizado, mas retorna como gladiador para se vingar do imperador corrupto que assassinou sua família e o enviou para a morte.",
+    "link": "98",
+    "categoria": "Ação/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg"
+  },
+  {
+    "id": 17,
+    "nome_arquivo": "A Bela e a Fera",
+    "sinopse": "Uma jovem se oferece para morar com uma fera em seu castelo encantado em troca da liberdade de seu pai, descobrindo que por trás da aparência monstruosa existe um coração bondoso.",
+    "link": "100",
+    "categoria": "Animação/Fantasia",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/5lZFBhVwUrGZ5YY1w7lqhQhq8bZ.jpg"
+  },
+  {
+    "id": 18,
+    "nome_arquivo": "Toy Story",
+    "sinopse": "Um brinquedo cowboy e um astronauta espacial competem pela atenção de seu dono, mas precisam deixar as diferenças de lado para enfrentar uma ameaça maior e voltar para casa.",
+    "link": "862",
+    "categoria": "Animação/Comédia",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/rhIRbEoGax6HqtnD6gQPzw6RwXh.jpg"
+  },
+  {
+    "id": 19,
+    "nome_arquivo": "O Rei Leão",
+    "sinopse": "Um jovem leão príncipe foge de seu reino após a morte de seu pai, mas retorna anos depois para reivindicar o trono e derrotar o tio que o traiu.",
+    "link": "8587",
+    "categoria": "Animação/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/4nTfzGoRlGzBOsDdL2CxQT7J9D.jpg"
+  },
+  {
+    "id": 20,
+    "nome_arquivo": "O Exorcista",
+    "sinopse": "Uma jovem é possuída por um demônio, e dois padres são chamados para realizar um exorcismo, enfrentando forças do mal e suas próprias dúvidas de fé.",
+    "link": "9552",
+    "categoria": "Terror/Suspense",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/4ucLGcXVVSGnsjgGZtrVt1H3T6s.jpg"
+  },
+  {
+    "id": 21,
+    "nome_arquivo": "Tubarão",
+    "sinopse": "Um grande tubarão branco aterroriza uma cidade litorânea no verão, e um chefe de polícia, um cientista e um caçador profissional se unem para caçar a fera.",
+    "link": "578",
+    "categoria": "Suspense/Terror",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/3sWsZXN0JmPJf3F5BlJb5IRejDS.jpg"
+  },
+  {
+    "id": 22,
+    "nome_arquivo": "Star Wars - Uma Nova Esperança",
+    "sinopse": "Luke Skywalker se junta a um cavaleiro Jedi e uma princesa para destruir a Estrela da Morte e salvar a galáxia do Império Galáctico.",
+    "link": "11",
+    "categoria": "Ficção Científica/Aventura",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg"
+  },
+  {
+    "id": 23,
+    "nome_arquivo": "E.T. - O Extraterrestre",
+    "sinopse": "Um garoto faz amizade com um extraterrestre perdido na Terra e o ajuda a voltar para casa, enfrentando a ameaça dos cientistas e do governo.",
+    "link": "601",
+    "categoria": "Ficção Científica/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/4eo3l2IOTn3cbZ8R9PzTABPKkK5.jpg"
+  },
+  {
+    "id": 24,
+    "nome_arquivo": "O Iluminado",
+    "sinopse": "Um escritor isolado em um hotel no inverno com sua família enlouquece lentamente, influenciado por forças sobrenaturais que habitam o local.",
+    "link": "694",
+    "categoria": "Terror/Suspense",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/opociHVllX8NHIGcKe2jMrjI5vT.jpg"
+  },
+  {
+    "id": 25,
+    "nome_arquivo": "O Mágico de Oz",
+    "sinopse": "Uma garota é transportada por um tornado para a terra de Oz, onde ela e seus novos amigos buscam o Mágico para realizarem seus desejos.",
+    "link": "630",
+    "categoria": "Fantasia/Aventura",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/jB9hOj5QrI1tYjJ9WcG9nL9RzU.jpg"
+  },
+  {
+    "id": 26,
+    "nome_arquivo": "Cidadão Kane",
+    "sinopse": "A ascensão e queda de um magnata da imprensa, contada através de flashbacks após sua morte, revelando seus segredos e a verdade por trás de sua última palavra: 'Rosebud'.",
+    "link": "235",
+    "categoria": "Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/1S6ZXFTfYqZ5hWOKdqvpRqHj3Xv.jpg"
+  },
+  {
+    "id": 27,
+    "nome_arquivo": "Casablanca",
+    "sinopse": "Durante a Segunda Guerra Mundial, um dono de bar em Casablanca se reencontra com seu amor do passado e precisa decidir entre seu coração e o dever de ajudar a Resistência.",
+    "link": "289",
+    "categoria": "Drama/Romance",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/5K7cOH36Cq1H1gKpA9rN6dU3JhH.jpg"
+  },
+  {
+    "id": 28,
+    "nome_arquivo": "O Vento Levou",
+    "sinopse": "Durante a Guerra Civil Americana, uma mulher mimada e determinada luta para salvar sua propriedade e sobreviver em um mundo em colapso.",
+    "link": "770",
+    "categoria": "Drama/Romance",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/9Gj6W0gOgTzrPvMh4TnhRq6bZbQ.jpg"
+  },
+  {
+    "id": 29,
+    "nome_arquivo": "O Beijo da Mulher-Aranha",
+    "sinopse": "Em uma prisão na América Latina, dois presos de personalidades opostas desenvolvem uma relação complexa enquanto um deles conta histórias de um filme de propaganda nazista.",
+    "link": "361",
+    "categoria": "Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/8jZz8zJ8zZ8zJ8zZ8zJ8zZ8zJ8z.jpg"
+  },
+  {
+    "id": 30,
+    "nome_arquivo": "A Noviça Rebelde",
+    "sinopse": "Uma jovem noviça é enviada para cuidar dos filhos de um viúvo austríaco, transformando sua vida e a da família com sua alegria e amor pela música.",
+    "link": "300",
+    "categoria": "Musical/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/5t8w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 31,
+    "nome_arquivo": "Bonequinha de Luxo",
+    "sinopse": "Uma jovem que vive de pequenos golpes em Nova York se apaixona por um escritor, mas seu passado e seus medos a impedem de se entregar ao amor.",
+    "link": "381",
+    "categoria": "Comédia/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/4t0w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 32,
+    "nome_arquivo": "Roma - Cidade Aberta",
+    "sinopse": "Durante a ocupação nazista em Roma, um membro da Resistência é perseguido, mostrando a luta do povo italiano contra a opressão.",
+    "link": "394",
+    "categoria": "Drama/Guerra",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/9gW6w0w9w9w9w9w9w9w9w9w9w9w.jpg"
+  },
+  {
+    "id": 33,
+    "nome_arquivo": "Cantando na Chuva",
+    "sinopse": "Um astro do cinema mudo e sua parceira enfrentam os desafios da transição para o cinema falado, enquanto se apaixonam e criam um dos maiores musicais da história.",
+    "link": "872",
+    "categoria": "Musical/Comédia",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/8t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 34,
+    "nome_arquivo": "Psicose",
+    "sinopse": "Uma secretária foge com dinheiro roubado e se hospeda em um motel isolado, onde encontra o estranho gerente Norman Bates e sua misteriosa mãe.",
+    "link": "539",
+    "categoria": "Terror/Suspense",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/9t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 35,
+    "nome_arquivo": "Os Pássaros",
+    "sinopse": "Uma cidade costeira é atacada por enxames de pássaros que se tornam violentos sem motivo aparente, enquanto uma jovem tenta descobrir a causa do fenômeno.",
+    "link": "540",
+    "categoria": "Terror/Suspense",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/8t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 36,
+    "nome_arquivo": "Um Corpo que Cai",
+    "sinopse": "Um ex-policial é contratado para seguir a esposa de um rico industrial, mas se envolve em uma trama de assassinato, amor e obsessão.",
+    "link": "567",
+    "categoria": "Suspense",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/7t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 37,
+    "nome_arquivo": "Janela Indiscreta",
+    "sinopse": "Um fotógrafo acidentado observa os vizinhos de sua janela e acredita ter testemunhado um assassinato, mas ninguém acredita em sua teoria.",
+    "link": "569",
+    "categoria": "Suspense",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/6t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 38,
+    "nome_arquivo": "O Segredo do Abismo",
+    "sinopse": "Um mergulhador é contratado para investigar a queda de um satélite no fundo do oceano, mas encontra uma nave alienígena e uma inteligência misteriosa.",
+    "link": "580",
+    "categoria": "Ficção Científica/Suspense",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/5t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 39,
+    "nome_arquivo": "O Grande Lebowski",
+    "sinopse": "Um desocupado conhecido como 'The Dude' se envolve em uma trama de sequestro, dinheiro e confusão quando é confundido com um magnata de mesmo nome.",
+    "link": "115",
+    "categoria": "Comédia/Crime",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/9t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 40,
+    "nome_arquivo": "Amnésia",
+    "sinopse": "Um homem que sofre de perda de memória de curto prazo tenta encontrar o assassino de sua esposa, usando tatuagens e fotografias como pistas.",
+    "link": "77",
+    "categoria": "Suspense/Mistério",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/8t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 41,
+    "nome_arquivo": "O Sexto Sentido",
+    "sinopse": "Um menino que vê pessoas mortas é tratado por um psicólogo, que descobre que ele pode ajudar os fantasmas a resolverem seus problemas não resolvidos.",
+    "link": "745",
+    "categoria": "Suspense/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/7t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 42,
+    "nome_arquivo": "O Show de Truman - O Show da Vida",
+    "sinopse": "Um homem descobre que sua vida inteira foi um reality show televisionado, e ele é o único que não sabe, enfrentando a decisão de continuar ou buscar a verdade.",
+    "link": "370",
+    "categoria": "Comédia/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/6t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 43,
+    "nome_arquivo": "O Fabuloso Destino de Amélie Poulain",
+    "sinopse": "Uma garçonete parisiense decide melhorar a vida das pessoas ao seu redor através de pequenos atos de bondade, mas descobre que precisa de ajuda para encontrar seu próprio amor.",
+    "link": "194",
+    "categoria": "Comédia/Romance",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/5t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 44,
+    "nome_arquivo": "Cidade dos Sonhos",
+    "sinopse": "Uma atriz aspirante e um pianista se apaixonam em Los Angeles, mas seus sonhos e ambições os colocam em caminhos diferentes, testando seu amor.",
+    "link": "313",
+    "categoria": "Musical/Romance",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/4t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 45,
+    "nome_arquivo": "La La Land",
+    "sinopse": "Em Los Angeles, um músico de jazz e uma aspirante a atriz se apaixonam enquanto perseguem seus sonhos, enfrentando os desafios do amor e da carreira.",
+    "link": "313369",
+    "categoria": "Musical/Romance",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/uDO8zWDhfWwoF3rTAdx7I6P8PvV.jpg"
+  },
+  {
+    "id": 46,
+    "nome_arquivo": "Parasita",
+    "sinopse": "Uma família pobre se infiltra na casa de uma família rica, criando um plano elaborado para viver às custas dos ricos, mas as coisas saem do controle.",
+    "link": "496243",
+    "categoria": "Suspense/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg"
+  },
+  {
+    "id": 47,
+    "nome_arquivo": "1917",
+    "sinopse": "Durante a Primeira Guerra Mundial, dois soldados britânicos recebem a missão de entregar uma mensagem que pode salvar 1.600 homens, atravessando o território inimigo.",
+    "link": "530915",
+    "categoria": "Guerra/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/iZf0KyrE25z1sage4rMLB6H9nRx.jpg"
+  },
+  {
+    "id": 48,
+    "nome_arquivo": "Joker",
+    "sinopse": "A história da origem do Coringa, mostrando como Arthur Fleck, um comediante fracassado, se transforma no maior vilão de Gotham City.",
+    "link": "475557",
+    "categoria": "Drama/Suspense",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/udD0MkEME51d9tX5XHj4ZpG9qLQ.jpg"
+  },
+  {
+    "id": 49,
+    "nome_arquivo": "Era uma Vez em Hollywood",
+    "sinopse": "Em 1969, um ator em declínio e seu dublê vivem as mudanças da indústria cinematográfica enquanto lidam com a chegada de uma vizinha famosa, Sharon Tate.",
+    "link": "466272",
+    "categoria": "Comédia/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/8j58iEBw9szOXD2J2WL9D0NwJpL.jpg"
+  },
+  {
+    "id": 50,
+    "nome_arquivo": "Ford vs Ferrari",
+    "sinopse": "O engenheiro Carroll Shelby e o piloto Ken Miles lutam contra a burocracia e as limitações técnicas para construir um carro capaz de vencer a Ferrari em Le Mans.",
+    "link": "359724",
+    "categoria": "Drama/Esporte",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/6ApwUZEdG9GRUQMtXe2jEyfIeHJ.jpg"
+  },
+  {
+    "id": 51,
+    "nome_arquivo": "O Irlandês",
+    "sinopse": "Um veterano da Segunda Guerra Mundial se torna assassino de aluguel para a máfia, envolvendo-se com algumas das figuras mais poderosas dos Estados Unidos.",
+    "link": "398978",
+    "categoria": "Drama/Crime",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/lbE1xWgU3XxP1pWqW9rqVcXhYQv.jpg"
+  },
+  {
+    "id": 52,
+    "nome_arquivo": "O Favorito",
+    "sinopse": "No início do século XVIII, duas primas rivais competem pelo favor da rainha Anne da Inglaterra em meio a jogos políticos e intrigas da corte.",
+    "link": "376660",
+    "categoria": "Drama/Comédia",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/cwY2PkZHVk0l3XH5x8RfW9nQvYQ.jpg"
+  },
+  {
+    "id": 53,
+    "nome_arquivo": "A Forma da Água",
+    "sinopse": "Em 1962, durante a Guerra Fria, uma zeladora muda se apaixona por uma criatura anfíbia mantida em cativeiro em um laboratório secreto.",
+    "link": "399579",
+    "categoria": "Fantasia/Romance",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/aGpQjZOQWk3lXH5x8RfW9nQvYQv.jpg"
+  },
+  {
+    "id": 54,
+    "nome_arquivo": "Moonlight - Sob a Luz do Luar",
+    "sinopse": "A história de um jovem negro crescendo em Miami, dividido entre sua identidade sexual e as expectativas da sociedade, em três fases de sua vida.",
+    "link": "376867",
+    "categoria": "Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/9gW6w0w9w9w9w9w9w9w9w9w9w9w.jpg"
+  },
+  {
+    "id": 55,
+    "nome_arquivo": "La La Land",
+    "sinopse": "Em Los Angeles, um músico de jazz e uma aspirante a atriz se apaixonam enquanto perseguem seus sonhos, enfrentando os desafios do amor e da carreira.",
+    "link": "313369",
+    "categoria": "Musical/Romance",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/uDO8zWDhfWwoF3rTAdx7I6P8PvV.jpg"
+  },
+  {
+    "id": 56,
+    "nome_arquivo": "O Grande Hotel Budapeste",
+    "sinopse": "A história do concierge de um famoso hotel europeu e seu amigo fiel, narrando as aventuras e desventuras que envolvem um assassinato e um quadro valioso.",
+    "link": "120467",
+    "categoria": "Comédia/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/8t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 57,
+    "nome_arquivo": "A Rede Social",
+    "sinopse": "A história da criação do Facebook, desde os dormitórios de Harvard até se tornar uma das maiores empresas do mundo, e as batalhas legais que se seguiram.",
+    "link": "37799",
+    "categoria": "Drama/Biografia",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/7t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 58,
+    "nome_arquivo": "O Discurso do Rei",
+    "sinopse": "O rei George VI luta contra sua gagueira com a ajuda de um terapeuta da fala, enquanto se prepara para liderar a Inglaterra durante a Segunda Guerra Mundial.",
+    "link": "45243",
+    "categoria": "Drama/Histórico",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/6t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 59,
+    "nome_arquivo": "Quem Quer Ser um Milionário?",
+    "sinopse": "Um jovem indiano participa do programa de TV 'Quem Quer Ser um Milionário?' e, através de suas respostas, revela sua história de vida e seu amor por uma garota.",
+    "link": "12405",
+    "categoria": "Drama/Romance",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/5t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 60,
+    "nome_arquivo": "O Curioso Caso de Benjamin Button",
+    "sinopse": "Benjamin Button nasce idoso e envelhece ao contrário, vivendo uma vida incomum enquanto se apaixona por uma mulher que envelhece normalmente.",
+    "link": "4922",
+    "categoria": "Drama/Romance",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/4t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 61,
+    "nome_arquivo": "O Cavaleiro Solitário",
+    "sinopse": "Um advogado se torna um vigilante mascarado para combater o crime em uma cidade corrompida, enquanto enfrenta suas próprias máscaras emocionais.",
+    "link": "49026",
+    "categoria": "Ação/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/8t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 62,
+    "nome_arquivo": "Drive",
+    "sinopse": "Um dublê de cinema que trabalha como motorista de fuga se envolve com sua vizinha e seu marido criminoso, levando a uma espiral de violência.",
+    "link": "64690",
+    "categoria": "Ação/Suspense",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/7t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 63,
+    "nome_arquivo": "O Lobo de Wall Street",
+    "sinopse": "A verdadeira história de Jordan Belfort, um corretor da bolsa que construiu um império de corrupção, fraudes e excessos nos anos 90.",
+    "link": "106646",
+    "categoria": "Drama/Comédia",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/6t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 64,
+    "nome_arquivo": "A Esperança é a Última que Morre",
+    "sinopse": "Em um mundo pós-apocalíptico, um pai e seu filho viajam em direção ao mar, lutando pela sobrevivência e mantendo a esperança viva.",
+    "link": "510",
+    "categoria": "Drama/Ficção Científica",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/5t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 65,
+    "nome_arquivo": "O Poço",
+    "sinopse": "Em uma prisão vertical, os prisioneiros são alimentados através de uma plataforma que desce, e aqueles no topo recebem comida enquanto os de baixo lutam pela sobrevivência.",
+    "link": "586263",
+    "categoria": "Ficção Científica/Suspense",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/4t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 66,
+    "nome_arquivo": "O Esquadrão Suicida",
+    "sinopse": "Um grupo de supervilões é recrutado pelo governo para realizar missões perigosas em troca de redução de suas penas, enfrentando ameaças sobrenaturais.",
+    "link": "436969",
+    "categoria": "Ação/Comédia",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/8t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 67,
+    "nome_arquivo": "O Menu",
+    "sinopse": "Um casal viaja para uma ilha remota para jantar em um restaurante exclusivo, onde o chef prepara um menu especial com consequências mortais.",
+    "link": "775996",
+    "categoria": "Suspense/Comédia",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/7t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 68,
+    "nome_arquivo": "Tudo em Todo o Lugar ao Mesmo Tempo",
+    "sinopse": "Uma imigrante chinesa descobre que pode acessar universos paralelos e deve usá-los para salvar sua família e o multiverso de uma ameaça cósmica.",
+    "link": "545611",
+    "categoria": "Ficção Científica/Comédia",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/6t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 69,
+    "nome_arquivo": "Os Fabelmans",
+    "sinopse": "A história de um jovem cineasta que descobre sua paixão pelo cinema enquanto lida com os segredos e conflitos de sua família na década de 1950.",
+    "link": "775996",
+    "categoria": "Drama/Biografia",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/5t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 70,
+    "nome_arquivo": "A Baleia",
+    "sinopse": "Um professor de inglês recluso e obeso tenta se reconectar com sua filha adolescente em uma tentativa de redenção em seus dias finais.",
+    "link": "731631",
+    "categoria": "Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/4t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 71,
+    "nome_arquivo": "Triângulo da Tristeza",
+    "sinopse": "Um supermodelo e seu namorado participam de um cruzeiro de luxo que termina em desastre, revelando as tensões de classe e a natureza humana.",
+    "link": "663644",
+    "categoria": "Comédia/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/8t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 72,
+    "nome_arquivo": "Belfast",
+    "sinopse": "Durante o conflito na Irlanda do Norte nos anos 1960, um menino vê sua vida mudar enquanto sua família decide entre ficar ou deixar Belfast.",
+    "link": "619078",
+    "categoria": "Drama/Biografia",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/7t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 73,
+    "nome_arquivo": "King Richard - Criando Campeãs",
+    "sinopse": "A história de Richard Williams, pai das tenistas Venus e Serena Williams, e sua luta para transformar suas filhas em campeãs mundiais.",
+    "link": "619078",
+    "categoria": "Drama/Biografia",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/6t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 74,
+    "nome_arquivo": "Ataque dos Cães",
+    "sinopse": "Em Montana em 1925, um fazendeiro rico e seu irmão mais novo enfrentam tensões enquanto a esposa do irmão chega à fazenda.",
+    "link": "596144",
+    "categoria": "Drama/Faroeste",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/5t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 75,
+    "nome_arquivo": "Licorice Pizza",
+    "sinopse": "Na década de 1970 em Los Angeles, um adolescente e uma jovem se apaixonam enquanto trabalham juntos em uma loja de discos.",
+    "link": "596144",
+    "categoria": "Comédia/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/4t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 76,
+    "nome_arquivo": "Não Olhe para Cima",
+    "sinopse": "Dois astrônomos descobrem um cometa que vai colidir com a Terra e tentam alertar a humanidade, mas encontram indiferença e negação.",
+    "link": "646389",
+    "categoria": "Comédia/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/8t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 77,
+    "nome_arquivo": "Os Olhos de Tammy Faye",
+    "sinopse": "A história da televangelista Tammy Faye Bakker, sua ascensão e queda no império religioso que construiu com seu marido.",
+    "link": "646389",
+    "categoria": "Drama/Biografia",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/7t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 78,
+    "nome_arquivo": "Drive My Car",
+    "sinopse": "Um diretor de teatro lida com o luto pela morte de sua esposa enquanto dirige seu carro e dirige uma produção de 'Tio Vânia' em Hiroshima.",
+    "link": "646389",
+    "categoria": "Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/6t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 79,
+    "nome_arquivo": "Flee",
+    "sinopse": "Um documentário animado sobre a história de um refugiado afegão que foge de seu país e luta com sua identidade e sexualidade.",
+    "link": "646389",
+    "categoria": "Documentário/Animação",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/5t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 80,
+    "nome_arquivo": "Duna",
+    "sinopse": "Em um futuro distante, o jovem Paul Atreides viaja para o planeta Arrakis, onde deve liderar uma rebelião contra os opressores de seu povo.",
+    "link": "438631",
+    "categoria": "Ficção Científica/Aventura",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/8t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 81,
+    "nome_arquivo": "West Side Story",
+    "sinopse": "Em Nova York, dois jovens de gangues rivais se apaixonam, recontando a história de Romeu e Julieta em um musical emocionante.",
+    "link": "438631",
+    "categoria": "Musical/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/7t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 82,
+    "nome_arquivo": "O Palhaço",
+    "sinopse": "Um pai e filho viajam como palhaços pelo interior do Brasil, enquanto o filho busca seu lugar no mundo e a identidade de sua mãe.",
+    "link": "438631",
+    "categoria": "Drama/Comédia",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/6t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 83,
+    "nome_arquivo": "Que Horas Ela Volta?",
+    "sinopse": "Uma empregada doméstica cria o filho de seus patrões como se fosse seu, mas quando a filha biológica chega para morar com a família, sua vida é abalada.",
+    "link": "438631",
+    "categoria": "Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/5t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 84,
+    "nome_arquivo": "O Beijo no Asfalto",
+    "sinopse": "Um homem morre após ser atropelado e um ator que presencia a cena se apaixona pela viúva, em uma história de amor e obsessão.",
+    "link": "438631",
+    "categoria": "Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/4t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 85,
+    "nome_arquivo": "O Auto da Compadecida",
+    "sinopse": "Dois amigos pobres no sertão nordestino vivem uma série de aventuras e confusões, enquanto a morte e a compaixão entram em suas vidas.",
+    "link": "438631",
+    "categoria": "Comédia/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/8t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 86,
+    "nome_arquivo": "Central do Brasil",
+    "sinopse": "Uma professora aposentada escreve cartas para analfabetos na estação Central do Brasil e ajuda um menino a encontrar seu pai.",
+    "link": "438631",
+    "categoria": "Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/7t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 87,
+    "nome_arquivo": "Cidade de Deus",
+    "sinopse": "A história da favela Cidade de Deus no Rio de Janeiro, mostrando a violência e a luta pelo poder entre os jovens criminosos.",
+    "link": "598",
+    "categoria": "Drama/Crime",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/6t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 88,
+    "nome_arquivo": "Tropa de Elite",
+    "sinopse": "Um capitão do BOPE luta contra o tráfico no Rio de Janeiro enquanto prepara seu substituto para comandar a tropa.",
+    "link": "598",
+    "categoria": "Ação/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/5t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 89,
+    "nome_arquivo": "O Meu Pé de Laranja Lima",
+    "sinopse": "Um menino pobre encontra refúgio em um pé de laranja lima e em um amigo português, enquanto enfrenta as dificuldades da vida.",
+    "link": "598",
+    "categoria": "Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/4t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 90,
+    "nome_arquivo": "O Quatrilho",
+    "sinopse": "Em uma comunidade italiana no sul do Brasil, dois casais vivem um jogo de troca de parceiros em meio a tradições e preconceitos.",
+    "link": "598",
+    "categoria": "Drama/Romance",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/8t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 91,
+    "nome_arquivo": "Lisbela e o Prisioneiro",
+    "sinopse": "Em 1940, uma mulher sonhadora e um foragido se apaixonam enquanto fogem do sertão e enfrentam as convenções sociais.",
+    "link": "598",
+    "categoria": "Comédia/Romance",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/7t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 92,
+    "nome_arquivo": "O Palhaço",
+    "sinopse": "Um pai e filho viajam como palhaços pelo interior do Brasil, enquanto o filho busca seu lugar no mundo e a identidade de sua mãe.",
+    "link": "598",
+    "categoria": "Drama/Comédia",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/6t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 93,
+    "nome_arquivo": "Que Horas Ela Volta?",
+    "sinopse": "Uma empregada doméstica cria o filho de seus patrões como se fosse seu, mas quando a filha biológica chega para morar com a família, sua vida é abalada.",
+    "link": "598",
+    "categoria": "Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/5t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 94,
+    "nome_arquivo": "O Beijo no Asfalto",
+    "sinopse": "Um homem morre após ser atropelado e um ator que presencia a cena se apaixona pela viúva, em uma história de amor e obsessão.",
+    "link": "598",
+    "categoria": "Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/4t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 95,
+    "nome_arquivo": "O Auto da Compadecida",
+    "sinopse": "Dois amigos pobres no sertão nordestino vivem uma série de aventuras e confusões, enquanto a morte e a compaixão entram em suas vidas.",
+    "link": "598",
+    "categoria": "Comédia/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/8t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 96,
+    "nome_arquivo": "Central do Brasil",
+    "sinopse": "Uma professora aposentada escreve cartas para analfabetos na estação Central do Brasil e ajuda um menino a encontrar seu pai.",
+    "link": "598",
+    "categoria": "Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/7t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 97,
+    "nome_arquivo": "Cidade de Deus",
+    "sinopse": "A história da favela Cidade de Deus no Rio de Janeiro, mostrando a violência e a luta pelo poder entre os jovens criminosos.",
+    "link": "598",
+    "categoria": "Drama/Crime",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/6t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 98,
+    "nome_arquivo": "Tropa de Elite",
+    "sinopse": "Um capitão do BOPE luta contra o tráfico no Rio de Janeiro enquanto prepara seu substituto para comandar a tropa.",
+    "link": "598",
+    "categoria": "Ação/Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/5t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 99,
+    "nome_arquivo": "O Meu Pé de Laranja Lima",
+    "sinopse": "Um menino pobre encontra refúgio em um pé de laranja lima e em um amigo português, enquanto enfrenta as dificuldades da vida.",
+    "link": "598",
+    "categoria": "Drama",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/4t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 100,
+    "nome_arquivo": "O Quatrilho",
+    "sinopse": "Em uma comunidade italiana no sul do Brasil, dois casais vivem um jogo de troca de parceiros em meio a tradições e preconceitos.",
+    "link": "598",
+    "categoria": "Drama/Romance",
+    "foto_capa": "https://image.tmdb.org/t/p/w500/8t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  }
+]
