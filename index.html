@@ -1265,7 +1265,7 @@
       <div id="body-jogos"></div>
     </section>
 
-    <!-- FILMES -->
+    
     <section class="hud" id="view-filmes" style="display:none">
       <div class="c3"></div><div class="c4"></div>
       <div class="panel-title">🎬 FILMES &amp; SÉRIES <span class="count" id="cnt-filmes"></span></div>
@@ -1287,24 +1287,14 @@
         </div>
         <div class="dev-info">
           <div class="dev-name">Digas</div>
-          <div class="dev-role">Desenvolvedor Full Stack · Especialista em Automação</div>
+          <div class="dev-role"></div>
           <p class="dev-bio">
-            Desenvolvedor independente com expertise em múltiplas linguagens e automação de processos.
-            Especialista em Python para automação de tarefas, web scraping e integração de sistemas.
-            Domina Lua para desenvolvimento de jogos e sistemas embarcados, JavaScript/TypeScript para
-            frontend e backend, e Dart para aplicações cross-platform com Flutter.
+            Tem as manha
           </p>
           <div class="dev-tags">
-            <span>Python</span>
-            <span>Lua</span>
-            <span>Luau</span>
-            <span>Dart</span>
-            <span>JavaScript</span>
-            <span>TypeScript</span>
-            <span>Automação</span>
-            <span>Web Scraping</span>
-            <span>Flutter</span>
-            <span>REST APIs</span>
+            <span>Chat gpt</span>
+            <span>Claude  </span>
+            
           </div>
           <div class="dev-note"></div>
         </div>
@@ -1363,7 +1353,7 @@
       }
       setInterval(drawMatrix, 55);
 
-      // boot
+      
       const bootText = document.getElementById('boot-text');
       const bootEl = document.getElementById('boot');
       const bootLines = [
@@ -1662,7 +1652,7 @@
 
       function renderPrograms(ctx) { renderBody(ctx); }
 
-      // --- FILMES ---
+      
       function renderFilmes() {
         const container = document.getElementById('body-filmes');
         const query = state.filmes.query || '';
@@ -1750,7 +1740,7 @@
         document.getElementById('backFilmesBtn').addEventListener('click', renderFilmes);
       }
 
-      // --- NAVEGAÇÃO ---
+      
       document.querySelectorAll('.subnav').forEach(nav => {
         const ctx = nav.dataset.ctx;
         nav.querySelectorAll('button').forEach(btn => {
@@ -1765,7 +1755,7 @@
         });
       });
 
-      // Busca filmes
+      
       document.getElementById('searchBtn-filmes').addEventListener('click', () => {
         const input = document.getElementById('search-filmes');
         state.filmes.query = input.value.trim();
@@ -1780,7 +1770,7 @@
         renderFilmes();
       });
 
-      // TABS
+      
       const tabs = ['home', 'programas', 'jogos', 'filmes', 'dev'];
 
       function goTab(name) {
@@ -1802,7 +1792,7 @@
 
       document.getElementById('topBtn').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-      // --- MÚSICA ---
+      
       const fab = document.getElementById('musicFab');
       const panel = document.getElementById('musicPanel');
       const audio = document.getElementById('bgAudio');
@@ -1844,9 +1834,10 @@
         }
       });
 
-      // INICIALIZAR
+      
       carregarDados();
     })();
   </script>
 </body>
 </html>
+<!-- (Digas) -->

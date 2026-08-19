@@ -790,5 +790,13 @@
     "link": "598",
     "categoria": "Drama/Romance",
     "foto_capa": "https://image.tmdb.org/t/p/w500/8t9w9w9w9w9w9w9w9w9w9w9w9w9.jpg"
+  },
+  {
+    "id": 101,
+    "nome_arquivo": "Gaua",
+    "sinopse": "Espanha, País Basco, século XVII. À noite, através das montanhas, Kattalin escapa de sua fazenda e, enquanto vagueia pela floresta densa, sente uma presença que a persegue.",
+    "link": "tt35610805",
+    "categoria": "Drama, Terror e Fantasia",
+    "foto_capa": "https://www.themoviedb.org/t/p/w600_and_h900_face/hWSY7OdBBJplNMWNPT1NIGYTRH2.jpg"
   }
 ]
